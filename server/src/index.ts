@@ -1,21 +1,55 @@
-import "reflect-metadata";
-import {createConnection} from "typeorm";
-import {User} from "./entity/User";
+import 'reflect-metadata';
+import { createConnection } from 'typeorm';
+import express from 'express';
+import cors from 'cors';
+// import routes from './routes/index';
+import 'dotenv-safe/config';
+import { logger, requestLogger } from './middleware/logger';
+import setAccessHeaders from './middleware/setAccessHeaders';
+import path from 'path';
+import errorHandler from './middleware/errorHandler';
 
-createConnection().then(async connection => {
+const main = async () => {
+    await createConnection({
+        type: 'postgres',
+        url: process.env.DATABASE_URL,
+        logging: true,
+        // synchronize: true,
+        migrations: [path.join(__dirname, './migrations/*')],
+        entities: [],
+    });
 
-    console.log("Inserting a new user into the database...");
-    const user = new User();
-    user.firstName = "Timber";
-    user.lastName = "Saw";
-    user.age = 25;
-    await connection.manager.save(user);
-    console.log("Saved a new user with id: " + user.id);
+    const app = express();
 
-    console.log("Loading users from the database...");
-    const users = await connection.manager.find(User);
-    console.log("Loaded users: ", users);
+    app.use(
+        cors({
+            origin: process.env.CORS_ORIGIN,
+            credentials: true,
+        })
+    );
 
-    console.log("Here you can setup and run express/koa/any other framework.");
+    app.use(requestLogger);
 
-}).catch(error => console.log(error));
+    app.use(express.urlencoded({ extended: true }));
+    app.use(express.json());
+
+    app.use(setAccessHeaders);
+
+    // app.use('/', routes);
+
+    app.use(errorHandler);
+
+    if (process.env.PORT) {
+        const isLocal = 'undefined' === typeof process.env.NODE_ENV || 'development' === process.env.NODE_ENV;
+        app.set('port', process.env.PORT);
+        const server = app.listen(app.get('port'), () => {
+            logger({ msg: `Express running → PORT ${isLocal ? 'localhost:' : ''}${server.address().port}` });
+        });
+    } else {
+        logger({ msg: 'PORT is not defined!', type: 'ERROR' });
+    }
+};
+
+main().catch((err) => {
+    logger({ msg: 'Could not start server!', type: 'ERROR', details: err });
+});
