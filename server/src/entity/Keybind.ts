@@ -32,5 +32,5 @@ export class Keybind {
     (type) => CheatsheetCategory,
     (cheatsheetCategory) => cheatsheetCategory.keybinds
   )
-  cheetsheetCategory: CheatsheetCategory;
+  cheatsheetCategory: CheatsheetCategory;
 }
