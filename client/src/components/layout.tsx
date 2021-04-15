@@ -26,6 +26,7 @@ export default function Layout({
         <meta name="og:title" content={siteTitle} />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
+      <body className="flex flex-col min-h-screen ">
       <nav className="flex justify-between">
         <h1>KEYBOUND</h1>
         <div>
@@ -34,8 +35,11 @@ export default function Layout({
         </div>
       </nav>
       <header></header>
-      <main>{children}</main>
-      <footer></footer>
+        <main className="flex-grow">{children}</main>
+        <footer className="w-full text-center border-t border-grey p-4">
+          <h1>HEllo</h1>
+        </footer>
+      </body>
     </div>
   );
 }
