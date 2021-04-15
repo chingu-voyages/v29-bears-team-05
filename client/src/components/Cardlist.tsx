@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import data from '../lib/mockData/index';
-// import Card from './Card';
+import Card from './Card';
 
 const Cardlist = () => {
   return (
@@ -10,7 +10,7 @@ const Cardlist = () => {
           <li key={list[0].cheatsheetId}>
             <Link href={`/sheets/${list[0].cheatsheet}`}>
               <a>
-                {/* <Card list={list} /> */}
+                <Card list={list} />
               </a>
             </Link>
           </li>
