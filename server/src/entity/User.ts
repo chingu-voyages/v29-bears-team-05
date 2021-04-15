@@ -32,4 +32,8 @@ export class User {
     @BeforeInsert() async hashPassword() {
         this.password = await argon2.hash(this.password, { salt: this.salt });
     }
+
+    validatedUnencryptedPassword(unencryptedPassword: string) {
+        return argon2.verify(unencryptedPassword, this.password);
+    }
 }
