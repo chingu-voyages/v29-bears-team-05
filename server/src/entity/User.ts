@@ -1,11 +1,11 @@
 import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert } from 'typeorm';
 import { Length, IsEmail } from 'class-validator';
-import * as bcrypt from 'bcryptjs';
+import * as argon2 from 'argon2';
 
 @Entity('user')
 export class User {
     @PrimaryGeneratedColumn('uuid')
-    id: number;
+    id: string;
 
     @Column({
         type: 'varchar',
@@ -27,9 +27,9 @@ export class User {
     password: string;
 
     @Column()
-    salt: number;
+    salt: Buffer;
 
     @BeforeInsert() async hashPassword() {
-        this.password = await bcrypt.hash(this.password, this.salt);
+        this.password = await argon2.hash(this.password, { salt: this.salt });
     }
 }
