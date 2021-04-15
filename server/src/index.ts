@@ -2,12 +2,16 @@ import 'reflect-metadata';
 import { createConnection } from 'typeorm';
 import express from 'express';
 import cors from 'cors';
-import routes from './routes/index';
 import 'dotenv-safe/config';
+import path from 'path';
+import routes from './routes/index';
 import { logger, requestLogger } from './middleware/logger';
 import setAccessHeaders from './middleware/setAccessHeaders';
-import path from 'path';
 import errorHandler from './middleware/errorHandler';
+import { User } from './entity/User';
+import { Keybind } from './entity/Keybind';
+import { CheatsheetCategory } from './entity/CheatsheetCategory';
+import { Cheatsheet } from './entity/Cheatsheet';
 
 const main = async () => {
     const isDev = 'undefined' === typeof process.env.NODE_ENV || 'development' === process.env.NODE_ENV;
@@ -18,7 +22,7 @@ const main = async () => {
         logging: isDev,
         // synchronize: true,
         migrations: [path.join(__dirname, './migrations/*')],
-        entities: [],
+        entities: [User, Cheatsheet, CheatsheetCategory, Keybind],
     });
 
     const app = express();
