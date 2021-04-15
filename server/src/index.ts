@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { createConnection } from 'typeorm';
 import express from 'express';
 import cors from 'cors';
-// import routes from './routes/index';
+import routes from './routes/index';
 import 'dotenv-safe/config';
 import { logger, requestLogger } from './middleware/logger';
 import setAccessHeaders from './middleware/setAccessHeaders';
@@ -35,7 +35,7 @@ const main = async () => {
 
     app.use(setAccessHeaders);
 
-    // app.use('/', routes);
+    app.use('/', routes);
 
     app.use(errorHandler);
 
