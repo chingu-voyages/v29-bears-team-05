@@ -36,10 +36,11 @@ export default function Layout({
       </nav>
       <header></header>
         <main className="flex-grow">{children}</main>
-        <footer className="w-full text-center border-t border-grey p-4">
-          <h1>HEllo</h1>
+        <footer className="w-full text-center border-t border-grey p-4 bg-gray-700 text-gray-100 text-base">
+          <p>&#169; Chingu v29 bears-team-05</p>
         </footer>
       </body>
     </div>
   );
 }
+ 
