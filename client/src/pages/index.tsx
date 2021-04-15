@@ -1,3 +1,5 @@
+import Cardlist from '../components/Cardlist';
+
 export default function Home() {
-  return <div>List of Cheatsheets</div>;
+  return <Cardlist />;
 }
