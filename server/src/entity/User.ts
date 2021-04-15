@@ -15,7 +15,11 @@ export class User {
     @Length(4, 20)
     username: string;
 
-    @Column()
+    @Column({
+        type: 'varchar',
+        nullable: false,
+        unique: true,
+    })
     @IsEmail()
     email: string;
 
@@ -26,11 +30,8 @@ export class User {
     @Length(4, 100)
     password: string;
 
-    @Column()
-    salt: Buffer;
-
     @BeforeInsert() async hashPassword() {
-        this.password = await argon2.hash(this.password, { salt: this.salt });
+        this.password = await argon2.hash(this.password);
     }
 
     validatedUnencryptedPassword(unencryptedPassword: string) {
