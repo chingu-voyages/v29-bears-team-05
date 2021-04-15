@@ -10,10 +10,12 @@ import path from 'path';
 import errorHandler from './middleware/errorHandler';
 
 const main = async () => {
+    const isDev = 'undefined' === typeof process.env.NODE_ENV || 'development' === process.env.NODE_ENV;
+
     await createConnection({
         type: 'postgres',
         url: process.env.DATABASE_URL,
-        logging: true,
+        logging: isDev,
         // synchronize: true,
         migrations: [path.join(__dirname, './migrations/*')],
         entities: [],
@@ -40,10 +42,9 @@ const main = async () => {
     app.use(errorHandler);
 
     if (process.env.PORT) {
-        const isLocal = 'undefined' === typeof process.env.NODE_ENV || 'development' === process.env.NODE_ENV;
         app.set('port', process.env.PORT);
         const server = app.listen(app.get('port'), () => {
-            logger({ msg: `Express running → PORT ${isLocal ? 'localhost:' : ''}${server.address().port}` });
+            logger({ msg: `Express running → PORT ${isDev ? 'localhost:' : ''}${server.address().port}` });
         });
     } else {
         logger({ msg: 'PORT is not defined!', type: 'ERROR' });
