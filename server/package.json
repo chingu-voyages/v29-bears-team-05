@@ -5,7 +5,8 @@
     "main": "src/start.js",
     "scripts": {
         "start": "ts-node src/index.ts",
-        "dev": "nodemon --exec ts-node src/index.ts"
+        "dev": "nodemon --exec ts-node src/index.ts",
+        "typeorm": "ts-node ./node_modules/typeorm/cli.js"
     },
     "devDependencies": {
         "@types/cors": "^2.8.10",
