@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Navbar from './Navbar';
 import Footer from './Footer';
 
 export const siteTitle = 'Next.js Sample Website';
@@ -28,13 +29,7 @@ export default function Layout({
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <div className="flex flex-col min-h-screen ">
-        <nav className="flex justify-between">
-          <h1>KEYBOUND</h1>
-          <div>
-            <button>Signup</button>
-            <button>Login</button>
-          </div>
-        </nav>
+        <Navbar/>
         <header></header>
         <main className="flex-grow">{children}</main>
         <Footer />
