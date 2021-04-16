@@ -5,8 +5,6 @@
     "username": "postgres",
     "password": "admin",
     "database": "keybound_api",
-    "synchronize": true,
-    "logging": true,
     "entities": [
         "src/entity/**/*.ts"
     ],
