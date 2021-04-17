@@ -1,17 +1,17 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
-import { Keybind } from "./Keybind";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Keybind } from './Keybind';
 
 @Entity()
 export class Cheatsheet {
-  @PrimaryGeneratedColumn()
-  id: number;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-  @Column()
-  name: string;
+    @Column()
+    name: string;
 
-  @Column()
-  logoUrl: string;
+    @Column()
+    logoUrl: string;
 
-  @OneToMany((type) => Keybind, (keybind) => keybind.cheatsheet)
-  keybinds: Keybind[];
+    @OneToMany(() => Keybind, (keybind) => keybind.cheatsheet)
+    keybinds: Keybind[];
 }

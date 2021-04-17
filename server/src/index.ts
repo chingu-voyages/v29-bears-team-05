@@ -1,21 +1,62 @@
-import "reflect-metadata";
-import {createConnection} from "typeorm";
-import {User} from "./entity/User";
+import 'reflect-metadata';
+import { createConnection } from 'typeorm';
+import express from 'express';
+import cors from 'cors';
+import 'dotenv-safe/config';
+import path from 'path';
+import routes from './routes/index';
+import { logger, requestLogger } from './middleware/logger';
+import setAccessHeaders from './middleware/setAccessHeaders';
+import errorHandler from './middleware/errorHandler';
+import { User } from './entity/User';
+import { Keybind } from './entity/Keybind';
+import { CheatsheetCategory } from './entity/CheatsheetCategory';
+import { Cheatsheet } from './entity/Cheatsheet';
 
-createConnection().then(async connection => {
+const main = async () => {
+    const isDev = 'undefined' === typeof process.env.NODE_ENV || 'development' === process.env.NODE_ENV;
 
-    console.log("Inserting a new user into the database...");
-    const user = new User();
-    user.firstName = "Timber";
-    user.lastName = "Saw";
-    user.age = 25;
-    await connection.manager.save(user);
-    console.log("Saved a new user with id: " + user.id);
+    const conn = await createConnection({
+        type: 'postgres',
+        url: process.env.DATABASE_URL,
+        logging: isDev,
+        synchronize: isDev,
+        migrations: [path.join(__dirname, './migrations/*')],
+        entities: [User, Cheatsheet, CheatsheetCategory, Keybind],
+    });
 
-    console.log("Loading users from the database...");
-    const users = await connection.manager.find(User);
-    console.log("Loaded users: ", users);
+    await conn.runMigrations();
 
-    console.log("Here you can setup and run express/koa/any other framework.");
+    const app = express();
 
-}).catch(error => console.log(error));
+    app.use(
+        cors({
+            origin: process.env.CORS_ORIGIN,
+            credentials: true,
+        })
+    );
+
+    app.use(requestLogger);
+
+    app.use(express.urlencoded({ extended: true }));
+    app.use(express.json());
+
+    app.use(setAccessHeaders);
+
+    app.use('/', routes);
+
+    app.use(errorHandler);
+
+    if (process.env.PORT) {
+        app.set('port', process.env.PORT);
+        const server = app.listen(app.get('port'), () => {
+            logger({ msg: `Express running → PORT ${isDev ? 'localhost:' : ''}${server.address().port}` });
+        });
+    } else {
+        logger({ msg: 'PORT is not defined!', type: 'ERROR' });
+    }
+};
+
+main().catch((err) => {
+    logger({ msg: 'Could not start server!', type: 'ERROR', details: err });
+});

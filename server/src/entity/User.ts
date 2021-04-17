@@ -1,19 +1,40 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert } from 'typeorm';
+import { Length, IsEmail } from 'class-validator';
+import * as argon2 from 'argon2';
 
-@Entity()
+@Entity('user')
 export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
 
-  @Column()
-  name: string;
+    @Column({
+        type: 'varchar',
+        nullable: false,
+        unique: true,
+    })
+    @Length(4, 20)
+    username: string;
 
-  @Column()
-  email: string;
+    @Column({
+        type: 'varchar',
+        nullable: false,
+        unique: true,
+    })
+    @IsEmail()
+    email: string;
 
-  @Column()
-  passwordHash: string;
+    @Column({
+        type: 'varchar',
+        nullable: false,
+    })
+    @Length(4, 100)
+    password: string;
 
-  @Column()
-  salt: number;
+    @BeforeInsert() async hashPassword() {
+        this.password = await argon2.hash(this.password);
+    }
+
+    validatedUnencryptedPassword(unencryptedPassword: string) {
+        return argon2.verify(unencryptedPassword, this.password);
+    }
 }
