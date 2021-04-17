@@ -1,0 +1,13 @@
+pg:
+  image: "postgres:13"
+  container_name: "keybound-postgres"
+  ports:
+    - "5432:5432"
+  volumes:
+    - ./pg/db_data:/var/lib/postgresql/data
+    - ./server/init.sql:/docker-entrypoint-initdb.d/init.sql
+  environment:
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD=admin
+  ports:
+    - "5432:5432"
