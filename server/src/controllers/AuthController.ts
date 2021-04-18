@@ -8,72 +8,76 @@ import config from '../config/config';
 const TOKEN_EXPIRATION_DURATION = '1h';
 
 const login = async (req: Request, res: Response) => {
-    let { username, password } = req.body;
+  let { username, password } = req.body;
 
-    if (!(username && password)) {
-        res.status(400).send();
+  if (!(username && password)) {
+    res.status(400).send();
+  }
+
+  const userRepository = getRepository(User);
+  let user: User;
+
+  try {
+    user = await userRepository.findOneOrFail({ where: { username } });
+  } catch (error) {
+    res.status(401).send();
+    return;
+  }
+
+  if (!user.validatedUnencryptedPassword(password)) {
+    res.status(401).send();
+    return;
+  }
+
+  const token = jwt.sign(
+    { userId: user.id, username: user.username },
+    config.jwtSecret,
+    {
+      expiresIn: TOKEN_EXPIRATION_DURATION,
     }
+  );
 
-    const userRepository = getRepository(User);
-    let user: User;
-
-    try {
-        user = await userRepository.findOneOrFail({ where: { username } });
-    } catch (error) {
-        res.status(401).send();
-        return;
-    }
-
-    if (!user.validatedUnencryptedPassword(password)) {
-        res.status(401).send();
-        return;
-    }
-
-    const token = jwt.sign({ userId: user.id, username: user.username }, config.jwtSecret, {
-        expiresIn: TOKEN_EXPIRATION_DURATION,
-    });
-
-    res.send(token);
+  res.send(token);
 };
 
 const changePassword = async (req: Request, res: Response) => {
-    const { userId: id } = res.locals.jwtPayload;
-    const { oldPassword, newPassword } = req.body;
+  const { userId: id } = res.locals.jwtPayload;
+  const { oldPassword, newPassword } = req.body;
 
-    if (!(oldPassword && newPassword)) {
-        res.status(400).send();
-    }
+  if (!(oldPassword && newPassword)) {
+    res.status(400).send();
+  }
 
-    const userRepository = getRepository(User);
-    let user: User;
+  const userRepository = getRepository(User);
+  let user: User;
 
-    try {
-        user = await userRepository.findOneOrFail(id);
-    } catch (id) {
-        res.status(401).send();
-        return;
-    }
+  try {
+    user = await userRepository.findOneOrFail(id);
+  } catch (id) {
+    res.status(401).send();
+    return;
+  }
 
-    if (!user.validatedUnencryptedPassword(oldPassword)) {
-        res.status(401).send();
-        return;
-    }
+  if (!user.validatedUnencryptedPassword(oldPassword)) {
+    res.status(401).send();
+    return;
+  }
 
-    user.password = newPassword;
-    const errors = await validate(user);
+  user.password = newPassword;
+  const errors = await validate(user);
 
-    if (errors.length > 0) {
-        res.status(400).send(errors);
-        return;
-    }
+  if (errors.length > 0) {
+    res.status(400).send(errors);
+    return;
+  }
 
-    user.hashPassword();
-    userRepository.save(user);
+  user.hashPassword();
+  userRepository.save(user);
 
-    res.status(204).send();
+  res.status(204).send();
 };
 
 export default {
-    login,
-    changePassword,
+  login,
+  changePassword,
 };
