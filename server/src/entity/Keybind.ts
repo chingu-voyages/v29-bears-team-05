@@ -4,30 +4,33 @@ import { CheatsheetCategory } from './CheatsheetCategory';
 
 @Entity()
 export class Keybind {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    cheatsheetId: number;
+  @Column()
+  cheatsheetId: number;
 
-    @Column()
-    categoryId: number;
+  @Column()
+  categoryId: number;
 
-    @Column()
-    name: string;
+  @Column()
+  name: string;
 
-    @Column()
-    keyCombination: string;
+  @Column()
+  keyCombination: string;
 
-    @Column()
-    description: string;
+  @Column()
+  description: string;
 
-    @Column()
-    likes: number;
+  @Column()
+  likes: number;
 
-    @ManyToOne(() => Cheatsheet, (cheatsheet) => cheatsheet.keybinds)
-    cheatsheet: Cheatsheet;
+  @ManyToOne(() => Cheatsheet, (cheatsheet) => cheatsheet.keybinds)
+  cheatsheet: Cheatsheet;
 
-    @ManyToOne(() => CheatsheetCategory, (cheatsheetCategory) => cheatsheetCategory.keybinds)
-    cheatsheetCategory: CheatsheetCategory;
+  @ManyToOne(
+    () => CheatsheetCategory,
+    (cheatsheetCategory) => cheatsheetCategory.keybinds
+  )
+  cheatsheetCategory: CheatsheetCategory;
 }

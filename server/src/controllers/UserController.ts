@@ -4,110 +4,110 @@ import { validate } from 'class-validator';
 import { User } from '../entity/User';
 
 const getList = async (_req: Request, res: Response) => {
-    const userRepository = getRepository(User);
-    const users = await userRepository.find({
-        select: ['id', 'username', 'email'],
-    });
+  const userRepository = getRepository(User);
+  const users = await userRepository.find({
+    select: ['id', 'username', 'email'],
+  });
 
-    res.send(users);
+  res.send(users);
 };
 
 const getOneById = async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const userRepository = getRepository(User);
+  const { id } = req.params;
+  const userRepository = getRepository(User);
 
-    try {
-        const user = await userRepository.findOneOrFail(id, {
-            select: ['id', 'username', 'email'],
-        });
-        res.send(user);
-    } catch (error) {
-        res.status(404).send('User not found');
-    }
+  try {
+    const user = await userRepository.findOneOrFail(id, {
+      select: ['id', 'username', 'email'],
+    });
+    res.send(user);
+  } catch (error) {
+    res.status(404).send('User not found');
+  }
 };
 
 const createUser = async (req: Request, res: Response) => {
-    let { username, email, password } = req.body;
-    let user = new User();
+  let { username, email, password } = req.body;
+  let user = new User();
 
-    user.username = username;
-    user.password = password;
-    user.email = email;
+  user.username = username;
+  user.password = password;
+  user.email = email;
 
-    const errors = await validate(user);
-    if (errors.length > 0) {
-        res.status(400).send(errors);
-        return;
-    }
+  const errors = await validate(user);
+  if (errors.length > 0) {
+    res.status(400).send(errors);
+    return;
+  }
 
-    user.hashPassword();
+  user.hashPassword();
 
-    const userRepository = getRepository(User);
-    try {
-        await userRepository.save(user);
-    } catch (e) {
-        res.status(409).send('username already in use');
-        return;
-    }
+  const userRepository = getRepository(User);
+  try {
+    await userRepository.save(user);
+  } catch (e) {
+    res.status(409).send('username already in use');
+    return;
+  }
 
-    res.status(201).send('User created');
+  res.status(201).send('User created');
 };
 
 const updateUser = async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const { username, email } = req.body;
+  const { id } = req.params;
+  const { username, email } = req.body;
 
-    const userRepository = getRepository(User);
-    let user;
+  const userRepository = getRepository(User);
+  let user;
 
-    try {
-        user = await userRepository.findOneOrFail(id);
-    } catch (error) {
-        res.status(404).send('User not found');
-        return;
-    }
+  try {
+    user = await userRepository.findOneOrFail(id);
+  } catch (error) {
+    res.status(404).send('User not found');
+    return;
+  }
 
-    user.username = username;
-    user.email = email;
+  user.username = username;
+  user.email = email;
 
-    const errors = await validate(user);
-    if (errors.length > 0) {
-        res.status(400).send(errors);
-        return;
-    }
+  const errors = await validate(user);
+  if (errors.length > 0) {
+    res.status(400).send(errors);
+    return;
+  }
 
-    try {
-        await userRepository.save(user);
-    } catch (e) {
-        res.status(409).send('username already in use');
-        return;
-    }
+  try {
+    await userRepository.save(user);
+  } catch (e) {
+    res.status(409).send('username already in use');
+    return;
+  }
 
-    res.status(204).send();
+  res.status(204).send();
 };
 
 const deleteUser = async (req: Request, res: Response) => {
-    const { id } = req.params;
+  const { id } = req.params;
 
-    const userRepository = getRepository(User);
-    let user: User;
+  const userRepository = getRepository(User);
+  let user: User;
 
-    try {
-        user = await userRepository.findOneOrFail(id);
-    } catch (error) {
-        res.status(404).send('User not found');
-        return;
-    }
+  try {
+    user = await userRepository.findOneOrFail(id);
+  } catch (error) {
+    res.status(404).send('User not found');
+    return;
+  }
 
-    userRepository.delete(user.id);
+  userRepository.delete(user.id);
 
-    res.status(204).send();
+  res.status(204).send();
 };
 
 export default {
-    getList,
-    getOneById,
-    createUser,
-    updateUser,
-    deleteUser,
+  getList,
+  getOneById,
+  createUser,
+  updateUser,
+  deleteUser,
 };
