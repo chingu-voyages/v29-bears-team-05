@@ -3,7 +3,7 @@ import React from 'react';
 export default function Navbar() {
 
     const [navbarOpen, setNavbarOpen] = React.useState(false);
-    const [modalOpen, setModalOpen] = React.useState(false);
+    const [showModal, setShowModal] = React.useState(false);
 
     return (
         <>
@@ -29,6 +29,8 @@ export default function Navbar() {
                         <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
                             <li className="nav-item">
                                 <button className="text-base px-3 py-2 flex items-center text-xs font-bold leading-snug text-gray-700 hover:opacity-75 focus:outline-none"
+                                        type="button"
+                                        onClick={() => setShowModal(true)}
                                 >
                                     Sign Up / LOGIN
                                 </button> 
@@ -37,6 +39,70 @@ export default function Navbar() {
                     </div> 
                 </div>
             </nav>
+
+            { /*Login Modal*/ }
+
+            {showModal ? (
+            <>
+                <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">        
+                    <div className="relative w-auto my-6 mx-auto max-w-3xl">
+                        {/* Content */}
+                        <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                            {/* Header */}
+                            <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
+                                <h4 className="text-2xl font-semibold">
+                                    Log In or Sign Up!
+                                </h4>
+                                <button
+                                    className="p-1 ml-auto bg-transparent border-0 text-black float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                                    onClick={() => setShowModal(false)}
+                                >
+                                    <span className="bg-transparent text-black h-6 w-6 text-2xl block outline-none focus:outline-none">
+                                    ×
+                                    </span>
+                                </button>
+                            </div>
+                            {/* Body */}
+                            <div className="relative p-6 flex-auto grid grid-cols-1 md:grid-cols-2 space-y-8 md:space-y-0">
+                                <div className="space-y-4">
+                                    <input type="text" placeholder="Username" className="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:ring w-full pr-10"/>
+                                    <input type="password" placeholder="Password" className="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:ring w-full pr-10"/>
+                                    <button
+                                        className="bg-gray-500 text-white active:bg-gray-700 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                        type="button"
+                                        onClick={() => setShowModal(false)}
+                                    >
+                                        Log In
+                                    </button>
+                                </div>
+                                <div className="space-y-4">
+                                    <input type="email" placeholder="Email" className="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:ring w-full pr-10"/>
+                                    <input type="text" placeholder="Username" className="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:ring w-full pr-10"/>
+                                    <input type="password" placeholder="Password" className="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:ring w-full pr-10"/>
+                                    <button
+                                        className="bg-gray-500 text-white active:bg-gray-700 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                        type="button"
+                                        onClick={() => setShowModal(false)}
+                                    >
+                                        Sign Up
+                                    </button>
+                                </div>
+                            </div>
+                            {/* Footer */}
+                            <div className="flex items-center p-1 border-t border-solid border-blueGray-200 rounded-b">
+                            <button
+                                className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                type="button"
+                                onClick={() => setShowModal(false)}
+                            >
+                                Close
+                            </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </>
+            ): null}
         </>
     ); 
 }
