@@ -28,15 +28,9 @@ export default function Navbar() {
                     >
                         <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
                             <li className="nav-item">
-                                <button className="text-sm px-3 py-2 flex items-center text-xs leading-snug text-gray-700 hover:opacity-75 focus:outline-none"
+                                <button className="text-base px-3 py-2 flex items-center text-xs font-bold leading-snug text-gray-700 hover:opacity-75 focus:outline-none"
                                 >
-                                    Sign Up
-                                </button>
-                            </li>
-                            <li className="nav-item">
-                                <button className="text-base px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-gray-700 hover:opacity-75 focus:outline-none"
-                                >
-                                    Login
+                                    Sign Up / LOGIN
                                 </button> 
                             </li>
                         </ul>
