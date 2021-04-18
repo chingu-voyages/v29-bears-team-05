@@ -1,15 +1,18 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Keybind } from './Keybind';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import { Keybind } from "./Keybind";
+import { IsString, Length } from "class-validator";
 
 @Entity()
 export class Cheatsheet {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn("uuid")
   id: number;
 
-  @Column()
+  @IsString()
+  @Length(1, 300)
+  @Column({ type: "varchar", length: 300 })
   name: string;
 
-  @Column()
+  @Column({ type: "varchar", nullable: true })
   logoUrl: string;
 
   @OneToMany(() => Keybind, (keybind) => keybind.cheatsheet)

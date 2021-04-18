@@ -1,28 +1,30 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { Cheatsheet } from './Cheatsheet';
-import { CheatsheetCategory } from './CheatsheetCategory';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import { Cheatsheet } from "./Cheatsheet";
+import { CheatsheetCategory } from "./CheatsheetCategory";
+import { IsInt, IsNotEmpty, IsString, Length } from "class-validator";
 
 @Entity()
 export class Keybind {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn("uuid")
   id: number;
 
-  @Column()
-  cheatsheetId: number;
-
-  @Column()
-  categoryId: number;
-
-  @Column()
+  @IsString()
+  @Length(1, 300)
+  @Column({ type: "varchar", length: 300 })
   name: string;
 
-  @Column()
+  @IsString()
+  @IsNotEmpty()
+  @Column({ type: "varchar" })
   keyCombination: string;
 
-  @Column()
+  @IsString()
+  @Length(1, 300)
+  @Column({ type: "varchar", length: 300 })
   description: string;
 
-  @Column()
+  @IsInt()
+  @Column({ type: "int", default: 0 })
   likes: number;
 
   @ManyToOne(() => Cheatsheet, (cheatsheet) => cheatsheet.keybinds)
