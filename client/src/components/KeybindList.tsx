@@ -1,12 +1,5 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import _ from 'lodash';
-import TextField from './Textfield';
-
-const HeartButton = () => (
-  <td className="text-sm sm:text-base p-2">
-    <button>🤍</button>
-  </td>
-);
 
 const Row = ({ record, children }) => {
   return (
@@ -18,13 +11,13 @@ const Row = ({ record, children }) => {
   );
 };
 
-const TableHeaders = ({ headers = [] }) => {
+const TableHeaders = ({ columns = [] }) => {
   return (
     <thead>
       <tr className="text-left">
-        {headers.map((header) => (
-          <th key={header} className="text-sm sm:text-base p-2">
-            {header}
+        {columns.map((column: any) => (
+          <th key={column?.header} className="text-sm sm:text-base p-2">
+            {column?.header}
           </th>
         ))}
       </tr>
@@ -32,59 +25,50 @@ const TableHeaders = ({ headers = [] }) => {
   );
 };
 
-const TableRows = ({ tableData }) => {
+const TableRows = ({ data, columns }) => {
   return (
     <tbody>
-      {tableData.map((record) => {
-        return (
-          <Row key={record.id} record={record}>
-            <TextField record={record} source="keyCombination" />
-            <TextField record={record} source="description" />
-            <TextField record={record} source="likes" />
-            <HeartButton />
-          </Row>
-        );
-      })}
+      {data.map((record) => (
+        <Row key={record.id} record={record}>
+          {columns.map((column) => (
+            <Fragment key={column.header}>{column.component(record)}</Fragment>
+          ))}
+        </Row>
+      ))}
     </tbody>
   );
 };
 
-const Table = ({ category, tableData, headers }) => {
+const Table = ({ title, data, columns }) => {
   return (
     <div>
       <div className="flex justify-center">
         <div className="w-full max-w-2xl mx-3">
-          <h1 className="mt-11 mb-3 text-2xl p-2">{category}</h1>
+          <h1 className="mt-11 mb-3 text-2xl p-2">{title}</h1>
         </div>
       </div>
       <div className="flex justify-center">
         <table className="table-fixed w-full max-w-2xl mx-3">
           <colgroup>
-            <col className="w-7/12"></col>
-            <col className="w-7/12"></col>
-            <col className="w-2/12"></col>
-            <col className="w-2/12"></col>
+            {columns.map((column) => {
+              return <col key={column.header} className={column.colWidth} />;
+            })}
           </colgroup>
-          <TableHeaders headers={headers} />
-          <TableRows tableData={tableData} />
+          <TableHeaders columns={columns} />
+          <TableRows data={data} columns={columns} />
         </table>
       </div>
     </div>
   );
 };
 
-const KeybindList = ({ sheetData = [], headers, categoryField }) => {
-  const categoryNames = [...new Set(sheetData.map((el) => el[categoryField]))];
+const KeybindList = ({ sheetData = [], columns, titleField }) => {
+  const titleNames = [...new Set(sheetData.map((el) => el[titleField]))];
 
-  return categoryNames.map((category, i) => {
+  return titleNames.map((title, i) => {
     const tableData = _.filter(sheetData, { categoryId: i + 1 });
     return (
-      <Table
-        key={category}
-        category={category}
-        tableData={tableData}
-        headers={headers}
-      />
+      <Table key={title} title={title} data={tableData} columns={columns} />
     );
   });
 };

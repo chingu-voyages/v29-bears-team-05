@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
+import FavoriteButton from '../../components/FavoriteButton';
 import KeybindList from '../../components/KeybindList';
-import Table from '../../components/Table/Table';
+import TextField from '../../components/Textfield';
 import data from '../../lib/mockData/index'
 
 const Sheet = () => {
@@ -9,6 +10,28 @@ const Sheet = () => {
 
     const sheetData = data?.find(list => list[0].cheatsheet === sheetName)
 
+    const columns = [
+        {
+            header: 'Shortcut',
+            component: (record) => <TextField record={record} source='keyCombination' />,
+            colWidth: 'w-7'
+        },
+        {
+            header: 'Description',
+            component: (record) => <TextField record={record} source='description' />,
+            colWidth: 'w-7'
+        },
+        {
+            header: 'Likes',
+            component: (record) => <TextField record={record} source='likes' />,
+            colWidth: 'w-2'
+        },
+        {
+            header: '❤️',
+            component: () => <FavoriteButton />,
+            colWidth: 'w-2'
+        }
+    ]
 
     if (sheetData) {
         return (
@@ -20,8 +43,8 @@ const Sheet = () => {
                 </div>
                 <KeybindList
                     sheetData={sheetData}
-                    headers={['Shortcut', 'Description', 'Likes', '❤️']}
-                    categoryField='cheatsheetCategory'
+                    columns={columns}
+                    titleField='cheatsheetCategory'
                 />
             </div>
         );
