@@ -1,7 +1,6 @@
 import React from 'react';
 
 export default function Navbar() {
-
     const [navbarOpen, setNavbarOpen] = React.useState(false);
     const [showModal, setShowModal] = React.useState(false);
 
@@ -10,7 +9,7 @@ export default function Navbar() {
             <nav className="relative flex flex-wrap items-center justify-between px-2 py-3 mb-3 border-b border-gray">
                 <div className="container px-4 mx-auto flex flex-wrap items-center justify-between">
                     <div className="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start">
-                        <a className="text-lg font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-gray-700 hover:no-underline"  href="/">
+                        <a className="text-lg font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-gray-700 hover:no-underline" href="/">
                             KEYBOUND
                         </a>
                         <button className="text-gray-700 cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
@@ -33,18 +32,18 @@ export default function Navbar() {
                                         onClick={() => setShowModal(true)}
                                 >
                                     Sign Up / LOGIN
-                                </button> 
+                                </button>
                             </li>
                         </ul>
-                    </div> 
+                    </div>
                 </div>
             </nav>
 
-            { /*Login Modal*/ }
+            { /* Login Modal*/ }
 
             {showModal ? (
             <>
-                <div className="justify-center xl:items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">        
+                <div className="justify-center xl:items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
                     <div className="relative w-auto my-6 mx-auto max-w-3xl">
                         {/* Content */}
                         <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
@@ -107,7 +106,7 @@ export default function Navbar() {
                                     <button
                                         className="bg-gray-700 text-white active:bg-gray-700 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                         type="button"
-                                        onClick={() => setShowModal(false)} 
+                                        onClick={() => setShowModal(false)}
                                     >
                                         Sign Up
                                     </button>
@@ -127,10 +126,9 @@ export default function Navbar() {
                     </div>
                 </div>
             </>
-            ): null}
+            ) : null}
         </>
-    ); 
+    );
 }
-
 
 

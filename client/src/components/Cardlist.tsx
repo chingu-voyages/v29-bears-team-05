@@ -4,8 +4,8 @@ import Card from './Card';
 
 const Cardlist = () => {
   return (
-    <div >
-      <ul className='md:flex md:flex-wrap md:justify-center my-12'>
+    <div>
+      <ul className="my-12 md:flex md:flex-wrap md:justify-center">
         {data.map((list) => (
           <li key={list[0].cheatsheetId}>
             <Link href={`/sheets/${list[0].cheatsheet}`}>
