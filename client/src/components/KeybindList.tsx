@@ -4,7 +4,7 @@ import { Accordion, AccordionHeader } from './Accordion';
 
 const Row = ({ record, children }) => {
   return (
-    <tr className="text-left py-4">
+    <tr className="py-4 text-left">
       {React.Children.map(children, (child) =>
         React.cloneElement(child, [record])
       )}
@@ -17,7 +17,7 @@ const TableHeaders = ({ columns = [] }) => {
     <thead>
       <tr className="text-left">
         {columns.map((column: any) => (
-          <th key={column?.header} className="text-sm sm:text-base p-2">
+          <th key={column?.header} className="p-2 text-sm sm:text-base">
             {column?.header}
           </th>
         ))}
@@ -32,7 +32,9 @@ const TableRows = ({ data, columns }) => {
       {data.map((record) => (
         <Row key={record.id} record={record}>
           {columns.map((column) => (
-            <Fragment key={column.header}>{column.component(record)}</Fragment>
+            <Fragment key={column.header}>
+              {React.cloneElement(column.component, { record })}
+            </Fragment>
           ))}
         </Row>
       ))}
@@ -45,7 +47,7 @@ const Table = ({ title, data, columns }) => {
 
   useEffect(() => {
     setAccordionId(title);
-  }, []);
+  }, [title]);
 
   const toggleCollapse = (id) => () => {
     setAccordionId((prevState) => (prevState !== id ? id : ''));
@@ -55,7 +57,7 @@ const Table = ({ title, data, columns }) => {
     <div>
       <div className="flex justify-center">
         <div className="w-full max-w-2xl mx-3">
-          <h1 className="mt-11 mb-3 text-2xl p-2 bg-gray-700 text-gray-100">
+          <h1 className="p-2 mb-3 text-2xl text-gray-100 bg-gray-700 mt-11">
             <AccordionHeader
               id={title}
               accordionId={accordionId}
@@ -68,7 +70,7 @@ const Table = ({ title, data, columns }) => {
       </div>
       <div className="flex justify-center">
         <Accordion id={title} isOpen={accordionId}>
-          <table className="table-fixed w-full max-w-2xl mx-3">
+          <table className="w-full max-w-2xl mx-3 table-fixed">
             <colgroup>
               {columns.map((column) => {
                 return <col key={column.header} className={column.colWidth} />;
