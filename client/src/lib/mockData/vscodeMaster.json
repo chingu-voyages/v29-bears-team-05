@@ -832,7 +832,7 @@
     "categoryId": 7,
     "name": "Ctrl+Shift+PgUp / PgDn",
     "keyCombination": "Ctrl+Shift+PgUp / PgDn",
-    "description": "Dn Move editor left/right",
+    "description": "Move editor left/right",
     "likes": 0
   },
   {
