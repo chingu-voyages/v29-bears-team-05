@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
-import { Cheatsheet } from 'src/entity/Cheatsheet';
-import { Keybind } from 'src/entity/Keybind';
+import { Cheatsheet } from '../entity/Cheatsheet';
+import { Keybind } from '../entity/Keybind';
 
 const getList = async (_req: Request, res: Response) => {
   const cheatsheetRepository = getRepository(Cheatsheet);
@@ -18,13 +18,13 @@ const getOneById = async (req: Request, res: Response) => {
 
   try {
     const keybinds = await keybindRepository.find({
-      relations: ['keybinds', 'cheatsheet'],
+      relations: ['cheatsheet'],
       where: { cheatsheet: { id: id } },
     });
 
     res.send(keybinds);
   } catch (error) {
-    res.status(404).send('Cheatsheet not found');
+    res.status(404).send(error);
   }
 };
 
