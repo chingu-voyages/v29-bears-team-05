@@ -1,11 +1,53 @@
 import { useRouter } from 'next/router';
+import FavoriteButton from '../../components/FavoriteButton';
+import KeybindList from '../../components/KeybindList';
+import TextField from '../../components/Textfield';
+import data from '../../lib/mockData/index'
 
 const Sheet = () => {
     const router = useRouter();
     const { sheetName } = router.query;
 
-    if (sheetName) {
-        return <div>cheatsheet: {sheetName} </div>;
+    const sheetData = data?.find(list => list[0].cheatsheet === sheetName)
+
+    const columns = [
+        {
+            header: 'Shortcut',
+            component: (record) => <TextField record={record} source='keyCombination' />,
+            colWidth: 'w-7'
+        },
+        {
+            header: 'Description',
+            component: (record) => <TextField record={record} source='description' />,
+            colWidth: 'w-7'
+        },
+        {
+            header: 'Likes',
+            component: (record) => <TextField  record={record} source='likes' />,
+            colWidth: 'w-2'
+        },
+        {
+            header: '❤️',
+            component: () => <FavoriteButton/>,
+            colWidth: 'w-3'
+        }
+    ]
+
+    if (sheetData) {
+        return (
+            <div className='mb-20'>
+                <div className="text-center">
+                    <h1 className="text-3xl lg:text-4xl my-12">
+                        {sheetName} keyboard shortcuts{' '}
+                    </h1>
+                </div>
+                <KeybindList
+                    sheetData={sheetData}
+                    columns={columns}
+                    titleField='cheatsheetCategory'
+                />
+            </div>
+        );
     } else {
         return null;
     }

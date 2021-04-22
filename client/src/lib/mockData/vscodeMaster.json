@@ -632,8 +632,8 @@
     "cheatsheet": "vscode",
     "cheatsheetCategory": "Multi-cursor and selection",
     "categoryId": 5,
-    "name": "Ctrl+Shift+Alt+PgUp/PgDn",
-    "keyCombination": "Ctrl+Shift+Alt+PgUp/PgDn",
+    "name": "Ctrl+Shift+Alt + PgUp/PgDn",
+    "keyCombination": "Ctrl+Shift + Alt+PgUp/PgDn",
     "description": "Column (box) selection page up/down",
     "likes": 0
   },
@@ -832,7 +832,7 @@
     "categoryId": 7,
     "name": "Ctrl+Shift+PgUp / PgDn",
     "keyCombination": "Ctrl+Shift+PgUp / PgDn",
-    "description": "Dn Move editor left/right",
+    "description": "Move editor left/right",
     "likes": 0
   },
   {
@@ -975,7 +975,7 @@
     "categoryId": 9,
     "name": "Shift+Alt+0",
     "keyCombination": "Shift+Alt+0",
-    "description": "Toggle editor layout (horizontal/vertical)",
+    "description": "Toggle editor layout (horizontal / vertical)",
     "likes": 0
   },
   {
