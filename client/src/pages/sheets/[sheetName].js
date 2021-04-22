@@ -23,13 +23,13 @@ const Sheet = () => {
         },
         {
             header: 'Likes',
-            component: (record) => <TextField record={record} source='likes' />,
+            component: (record) => <TextField  record={record} source='likes' />,
             colWidth: 'w-2'
         },
         {
             header: '❤️',
-            component: () => <FavoriteButton />,
-            colWidth: 'w-2'
+            component: () => <FavoriteButton/>,
+            colWidth: 'w-3'
         }
     ]
 
