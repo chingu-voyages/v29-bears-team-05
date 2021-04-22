@@ -18,7 +18,7 @@ const getOneById = async (req: Request, res: Response) => {
 
   try {
     const keybinds = await keybindRepository.find({
-      relations: ['cheatsheet'],
+      relations: ['cheatsheet', 'cheatsheetCategory'],
       where: { cheatsheet: { id: id } },
     });
 
