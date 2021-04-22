@@ -14,20 +14,15 @@ const getList = async (_req: Request, res: Response) => {
 
 const getOneById = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const cheatsheetRepository = getRepository(Cheatsheet);
   const keybindRepository = getRepository(Keybind);
 
   try {
-    const cheatsheet = await cheatsheetRepository.findOneOrFail(id, {
-      select: ['id', 'name', 'logoUrl'],
+    const keybinds = await keybindRepository.find({
+      relations: ['keybinds', 'cheatsheet'],
+      where: { cheatsheet: { id: id } },
     });
-    const keybinds = await keybindRepository
-      .createQueryBuilder()
-      .select('keybind')
-      .where('keybind.cheatsheetId = :id', { id: id })
-      .getMany();
 
-    res.send({ cheatsheet: cheatsheet, keybinds: keybinds });
+    res.send(keybinds);
   } catch (error) {
     res.status(404).send('Cheatsheet not found');
   }
