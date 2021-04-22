@@ -5,7 +5,7 @@ import { IsInt, IsString, Length } from 'class-validator';
 @Entity()
 export class CheatsheetCategory {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @IsString()
   @Length(1, 300)

@@ -4,7 +4,7 @@ import { IsString, Length } from 'class-validator';
 
 @Entity()
 export class Cheatsheet {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   id: number;
 
   @IsString()

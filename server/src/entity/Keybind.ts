@@ -6,7 +6,7 @@ import { IsInt, IsNotEmpty, IsString, Length } from 'class-validator';
 @Entity()
 export class Keybind {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @IsString()
   @Length(1, 300)
