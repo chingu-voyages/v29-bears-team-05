@@ -1,6 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BeforeInsert,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
 import { Length, IsEmail } from 'class-validator';
 import * as argon2 from 'argon2';
+import { Keybind } from './Keybind';
 
 @Entity('user')
 export class User {
@@ -29,6 +37,10 @@ export class User {
   })
   @Length(4, 100)
   password: string;
+
+  @ManyToMany(() => Keybind)
+  @JoinTable()
+  userFavorites: Keybind[];
 
   @BeforeInsert() async hashPassword() {
     this.password = await argon2.hash(this.password);
