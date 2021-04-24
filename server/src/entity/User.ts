@@ -35,6 +35,6 @@ export class User {
   }
 
   validatedUnencryptedPassword(unencryptedPassword: string) {
-    return argon2.verify(unencryptedPassword, this.password);
+    return argon2.verify(this.password, unencryptedPassword);
   }
 }
