@@ -24,7 +24,8 @@ const login = async (req: Request, res: Response) => {
     return;
   }
 
-  if (!user.validatedUnencryptedPassword(password)) {
+  const validPassword = await user.validatedUnencryptedPassword(password);
+  if (!validPassword) {
     res.status(401).send();
     return;
   }
