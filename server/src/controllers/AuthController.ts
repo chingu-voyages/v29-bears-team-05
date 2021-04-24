@@ -38,7 +38,7 @@ const login = async (req: Request, res: Response) => {
     }
   );
 
-  res.send(token);
+  res.send({ token });
 };
 
 const changePassword = async (req: Request, res: Response) => {
