@@ -3,7 +3,7 @@ import { getRepository } from 'typeorm';
 import { validate } from 'class-validator';
 import { User } from '../entity/User';
 
-const getProfile = async (_req: Request, res: Response) => {
+const getFavorites = async (_req: Request, res: Response) => {
   const userCredentials = { user: _req.body.user, token: _req.body.token };
   const userRepository = getRepository(User);
 
@@ -127,7 +127,7 @@ const deleteUser = async (req: Request, res: Response) => {
 };
 
 export default {
-  getProfile,
+  getFavorites,
   getList,
   getOneById,
   createUser,
