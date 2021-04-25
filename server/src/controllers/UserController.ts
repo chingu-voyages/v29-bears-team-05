@@ -3,6 +3,28 @@ import { getRepository } from 'typeorm';
 import { validate } from 'class-validator';
 import { User } from '../entity/User';
 
+const getFavorites = async (_req: Request, res: Response) => {
+  const userCredentials = { user: _req.body.user, token: _req.body.token };
+  const userRepository = getRepository(User);
+
+  try {
+    const user = await userRepository.findOneOrFail(
+      userCredentials.user.userId,
+      {
+        select: ['id', 'username'],
+        relations: [
+          'userFavorites',
+          'userFavorites.cheatsheet',
+          'userFavorites.cheatsheetCategory',
+        ],
+      }
+    );
+    res.send({ user, token: userCredentials.token });
+  } catch (error) {
+    res.status(404).send('User not found');
+  }
+};
+
 const getList = async (_req: Request, res: Response) => {
   const userRepository = getRepository(User);
   const users = await userRepository.find({
@@ -105,6 +127,7 @@ const deleteUser = async (req: Request, res: Response) => {
 };
 
 export default {
+  getFavorites,
   getList,
   getOneById,
   createUser,
