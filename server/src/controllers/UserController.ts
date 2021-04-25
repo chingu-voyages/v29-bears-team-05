@@ -57,7 +57,32 @@ const addFavorite = async (_req: Request, res: Response) => {
   res.status(200).send(user);
 };
 
-const deleteFavorite = async (_req: Request, _res: Response) => {};
+const deleteFavorite = async (_req: Request, res: Response) => {
+  const userId = _req.body.user.id;
+  const queryId = _req.body.keybind.id;
+
+  const userRepository = getRepository(User);
+
+  // get list of favorites
+  const user = (await userRepository
+    .findOneOrFail(userId, {
+      select: ['id', 'username'],
+      relations: ['userFavorites'],
+    })
+    .catch(() => res.status(404).send('User not found'))) as User;
+
+  // reject if keybind not in list
+  const queryPosition = user.userFavorites.findIndex((x) => x.id === queryId);
+  if (queryPosition < 0) {
+    res.status(403).send('Keybind not in favorites');
+    return;
+  }
+
+  const removed = user.userFavorites.splice(queryPosition, 1);
+
+  await userRepository.save(user);
+  res.status(200).send({ user, removed });
+};
 
 const getList = async (_req: Request, res: Response) => {
   const userRepository = getRepository(User);
