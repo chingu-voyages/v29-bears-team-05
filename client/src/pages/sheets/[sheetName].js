@@ -1,8 +1,14 @@
 import { useRouter } from 'next/router';
-import FavoriteButton from '../../components/FavoriteButton';
 import KeybindList from '../../components/KeybindList';
 import TextField from '../../components/Textfield';
 import data from '../../lib/mockData/index';
+
+
+const FavoriteButton = () => (
+  <td className="text-sm sm:text-base p-2">
+    <button>🤍</button>
+  </td>
+);
 
 const columns = [
   {

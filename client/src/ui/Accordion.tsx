@@ -1,18 +1,14 @@
-import { HTMLAttributes, ReactNode, useRef } from 'react';
+import { HTMLAttributes, ReactNode, useLayoutEffect, useRef, useState } from 'react';
 
 interface AccordionProps {
   children: ReactNode;
-  id: string;
-  isOpen: string;
+  isOpen: boolean;
 }
 
 interface AccordionHeaderProps extends HTMLAttributes<HTMLElement> {
-  accordionId: string;
-  id: string;
   children: ReactNode;
-  upIcon: ReactNode;
-  downIcon: ReactNode;
   variant: 'gray' | 'indigo';
+  isOpen: boolean;
 }
 
 const style = {
@@ -47,31 +43,35 @@ export const AngleDownIcon = (props) => (
   </svg>
 );
 
-export const Accordion = ({ children, id, isOpen }: AccordionProps) => {
-  const ref = useRef<HTMLDivElement>(null);
+export const Accordion = ({ children, isOpen }: AccordionProps) => {
+  const childRef = useRef<HTMLDivElement>(null);
+  const [height, setHeight] = useState(null);
+
+  useLayoutEffect(() => {
+      const childHeight = childRef?.current.scrollHeight;
+      setHeight(childHeight);
+  }, []);
+  
   const inlineStyle =
-    isOpen === id ? { height: ref.current?.scrollHeight } : { height: 0 };
+    isOpen ? { height } : { height: 0 };
 
   return (
-    <div id={id} className={style.accordion} ref={ref} style={inlineStyle}>
+    <div className={style.accordion} ref={childRef} style={inlineStyle}>
       {children}
     </div>
   );
 };
 
 export const AccordionHeader = ({
-  accordionId,
-  id,
   children,
-  upIcon,
-  downIcon,
   variant,
-  ...rest
+  onClick,
+  isOpen = false,
 }: AccordionHeaderProps) => (
-  <div role="button" {...rest} className={style.accordionHeader[variant]}>
+  <div role="button" onClick={onClick} className={style.accordionHeader[variant]}>
     {children}
     <span className="float-right">
-      {accordionId === id ? (
+      {isOpen ? (
         <AngleUpIcon className="mt-1 h-4" />
       ) : (
         <AngleDownIcon className="mt-1 h-4" />
