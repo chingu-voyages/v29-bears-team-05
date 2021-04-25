@@ -4,8 +4,8 @@ import { validate } from 'class-validator';
 import { User } from '../entity/User';
 import { Keybind } from '../entity/Keybind';
 
-const getFavorites = async (_req: Request, res: Response) => {
-  const userCredentials = { user: _req.body.user, token: _req.body.token };
+const getFavorites = async (req: Request, res: Response) => {
+  const userCredentials = { user: req.body.user, token: req.body.token };
   const userRepository = getRepository(User);
 
   try {
@@ -26,9 +26,9 @@ const getFavorites = async (_req: Request, res: Response) => {
   }
 };
 
-const addFavorite = async (_req: Request, res: Response) => {
-  const userId = _req.body.user.id;
-  const queryId = _req.body.keybind.id;
+const addFavorite = async (reqr: Request, res: Response) => {
+  const userId = reqr.body.user.id;
+  const queryId = reqr.body.keybind.id;
 
   const userRepository = getRepository(User);
   const keybindRepository = getRepository(Keybind);
@@ -57,9 +57,9 @@ const addFavorite = async (_req: Request, res: Response) => {
   res.status(200).send(user);
 };
 
-const deleteFavorite = async (_req: Request, res: Response) => {
-  const userId = _req.body.user.id;
-  const queryId = _req.body.keybind.id;
+const deleteFavorite = async (req: Request, res: Response) => {
+  const userId = req.body.user.id;
+  const queryId = req.body.keybind.id;
 
   const userRepository = getRepository(User);
 
