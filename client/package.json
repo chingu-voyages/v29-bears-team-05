@@ -9,6 +9,7 @@
         "lint": "eslint src --fix"
     },
     "dependencies": {
+        "axios": "^0.21.1",
         "date-fns": "^2.11.1",
         "formik": "^2.2.6",
         "gray-matter": "^4.0.2",
