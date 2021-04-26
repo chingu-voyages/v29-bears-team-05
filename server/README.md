@@ -6,8 +6,14 @@ Steps to run this project:
 3. Start postgres server in the background: `docker-compose up -d`.  Can close the postgres server with `docker-compose down`
 4. Run `npm i` command
 5. Setup database settings inside `ormconfig.json` file
-6. Run `npm start` command
-7. Run `npm run mockdata` command to populate mock data to database
+6. Setup `.env` file.  Example:
+    ```
+    DATABASE_URL=postgresql://postgres:admin@localhost:5432/keybound_api
+    PORT=4000
+    CORS_ORIGIN=http://localhost:3000
+    ```
+7. Run `npm start` command
+8. Run `npm run mockdata` command to populate mock data to database
 
 ## API
 
