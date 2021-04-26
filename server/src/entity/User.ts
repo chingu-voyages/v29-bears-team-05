@@ -38,7 +38,7 @@ export class User {
   @Length(4, 100)
   password: string;
 
-  @ManyToMany(() => Keybind)
+  @ManyToMany(() => Keybind, { cascade: true })
   @JoinTable()
   userFavorites: Keybind[];
 
