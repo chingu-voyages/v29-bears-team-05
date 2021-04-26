@@ -52,6 +52,7 @@ const addFavorite = async (reqr: Request, res: Response) => {
     .findOneOrFail(queryId)
     .catch(() => res.status(404).send('Keybind not found'))) as Keybind;
 
+  keybind.likes = keybind.likes + 1;
   user.userFavorites.push(keybind);
   await userRepository.save(user);
   res.status(200).send(user);
@@ -62,6 +63,7 @@ const deleteFavorite = async (req: Request, res: Response) => {
   const queryId = req.body.keybind.id;
 
   const userRepository = getRepository(User);
+  const keybindRepository = getRepository(Keybind);
 
   // get list of favorites
   const user = (await userRepository
@@ -78,9 +80,12 @@ const deleteFavorite = async (req: Request, res: Response) => {
     return;
   }
 
-  const removed = user.userFavorites.splice(queryPosition, 1);
+  const [removed, ,] = user.userFavorites.splice(queryPosition, 1);
+  // ensures likes counter does not go below 0
+  removed.likes = Math.max(0, removed.likes - 1);
 
   await userRepository.save(user);
+  await keybindRepository.save(removed);
   res.status(200).send({ user, removed });
 };
 
