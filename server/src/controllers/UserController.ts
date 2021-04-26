@@ -44,7 +44,7 @@ const addFavorite = async (reqr: Request, res: Response) => {
   // reject if keybind is already in list
   const keybinds_id = user.userFavorites.map((x) => x.id);
   if (keybinds_id.includes(queryId)) {
-    res.status(403).send('Keybind already in favorites');
+    res.status(402).send('Keybind already in favorites');
     return;
   }
 
@@ -76,7 +76,7 @@ const deleteFavorite = async (req: Request, res: Response) => {
   // reject if keybind not in list
   const queryPosition = user.userFavorites.findIndex((x) => x.id === queryId);
   if (queryPosition < 0) {
-    res.status(403).send('Keybind not in favorites');
+    res.status(402).send('Keybind not in favorites');
     return;
   }
 
