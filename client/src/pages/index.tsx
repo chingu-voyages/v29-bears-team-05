@@ -1,5 +1,5 @@
-import Cardlist from '../components/Cardlist';
+
 
 export default function Home() {
-  return <Cardlist />;
+  return <h1>Hello!</h1>;
 }

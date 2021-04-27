@@ -47,15 +47,26 @@ export default function Navbar() {
             id="example-navbar-danger"
           >
             <ul className="flex flex-col list-none lg:flex-row lg:ml-auto">
+              <li className="nav-item mr-3">
+                <a href="/sheets">
+                  <button
+                  className="flex items-center px-3 py-2 text-xs text-base font-bold leading-snug text-gray-700 hover:opacity-75 focus:outline-none"
+                  type="button"
+                  >
+                    Sheets
+                  </button>
+                </a>
+              </li>
               <li className="nav-item">
                 <button
-                  className="flex items-center px-3 py-2 text-xs text-base font-bold leading-snug text-gray-700 hover:opacity-75 focus:outline-none"
+                  className="flex items-center px-2 py-2 text-xs text-base font-bold leading-snug text-gray-700 border border-gray-700 rounded hover:bg-gray-700 hover:text-white hover:shadow-lg focus:outline-none"
                   type="button"
                   onClick={() => setShowModal(true)}
                 >
-                  Sign Up / LOGIN
+                  LOGIN / Sign up
                 </button>
               </li>
+
             </ul>
           </div>
         </div>
