@@ -9,7 +9,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="relative flex flex-wrap items-center justify-between px-2 py-3 mb-3 border-b border-gray">
+      <nav className="relative flex flex-wrap items-center justify-between px-2 py-3 border-b border-gray">
         <div className="container flex flex-wrap items-center justify-between px-4 mx-auto">
           <div className="relative flex justify-between w-full lg:w-auto lg:static lg:block lg:justify-start">
             <a
@@ -48,7 +48,7 @@ export default function Navbar() {
           >
             <ul className="flex flex-col list-none lg:flex-row lg:ml-auto">
               <li className="nav-item mr-3">
-                <a href="/sheets">
+                <a href="/sheets" className="hover:no-underline">
                   <button
                   className="flex items-center px-3 py-2 text-xs text-base font-bold leading-snug text-gray-700 hover:opacity-75 focus:outline-none"
                   type="button"
@@ -59,7 +59,7 @@ export default function Navbar() {
               </li>
               <li className="nav-item">
                 <button
-                  className="flex items-center px-2 py-2 text-xs text-base font-bold leading-snug text-gray-700 border border-gray-700 rounded hover:bg-gray-700 hover:text-white hover:shadow-lg focus:outline-none"
+                  className="flex items-center px-2 py-2 text-xs text-base font-bold leading-snug text-gray-700 border border-gray-700 rounded hover:bg-green-300 hover:text-black hover:shadow-lg hover:border-transparent focus:outline-none"
                   type="button"
                   onClick={() => setShowModal(true)}
                 >
