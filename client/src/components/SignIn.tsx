@@ -5,15 +5,14 @@ import * as Yup from 'yup';
 import Auth from '../service/auth';
 import { useRouter } from 'next/router';
 import Token from '../service/token';
+import Users from '../service/user';
 
 const SignIn = ({ setShowModal }) => {
   const router = useRouter();
 
   const handleLogin = async (values) => {
-    console.log('values', values);
     return await Auth.login(values)
       .then((token) => {
-        console.log('token', token);
         Token.saveAuthToken(token);
         setShowModal(false);
         router.push(`http://localhost:3000/sheets`);
@@ -22,6 +21,24 @@ const SignIn = ({ setShowModal }) => {
         console.log('err.message', err.message);
         if (err.message === 'Unauthorized') {
           alert('Incorrect username or password');
+        } else {
+          alert('Something went wrong, please try again');
+        }
+      });
+  };
+
+  const handleSignUp = async (values) => {
+    return await Users.register(values)
+      .then((res) => {
+        if (res) {
+          const username = values.username;
+          const password = values.password;
+          handleLogin({ username, password });
+        }
+      })
+      .catch((err) => {
+        if (err.message === 'Conflict') {
+          alert('Username and/or user email taken');
         } else {
           alert('Something went wrong, please try again');
         }
@@ -136,11 +153,9 @@ const SignIn = ({ setShowModal }) => {
                     .min(8, 'Must be 8 characters or more')
                     .required('Required'),
                 })}
-                onSubmit={(values, { setSubmitting }) => {
-                  setTimeout(() => {
-                    alert(JSON.stringify(values, null, 2));
-                    setSubmitting(false);
-                  }, 400);
+                onSubmit={async (values, { setSubmitting }) => {
+                  await handleSignUp(values);
+                  setSubmitting(false);
                 }}
               >
                 <Form className="space-y-4 md:ml-3">
