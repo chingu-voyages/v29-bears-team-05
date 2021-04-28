@@ -12,7 +12,8 @@ const SignIn = ({ setShowModal }) => {
 
   const handleLogin = async (values) => {
     return await Auth.login(values)
-      .then((token) => {
+      .then((res) => {
+        const token = res.token;
         Token.saveAuthToken(token);
         setShowModal(false);
         router.push(`http://localhost:3000/sheets`);
