@@ -16,7 +16,7 @@ const SignIn = ({ setShowModal }) => {
         const token = res.token;
         Token.saveAuthToken(token);
         setShowModal(false);
-        router.push(`http://localhost:3000/sheets`);
+        router.push(`/sheets`);
       })
       .catch((err) => {
         console.log('err.message', err.message);

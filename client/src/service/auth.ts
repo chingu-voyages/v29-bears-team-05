@@ -9,7 +9,6 @@ const Auth = {
       },
       body: JSON.stringify(credentials),
     }).then((res) => {
-      console.log('res', res);
       if (!res.ok) {
         throw Error(res.statusText);
       } else {
