@@ -1,5 +1,5 @@
 import Cardlist from '../../ui/Cardlist';
-import { useQuery, QueryClient, useQueryClient } from 'react-query';
+import { useQuery, QueryClient } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { getSheets } from '../../service/queryFns';
 
@@ -11,7 +11,7 @@ export default function Sheets() {
   if (isError) {
     return <span>Error: {error.message}</span>;
   }
-  return <Cardlist data={data} />;
+  return <Cardlist data={data} title="sheets" />;
 }
 
 export async function getServerSideProps() {
