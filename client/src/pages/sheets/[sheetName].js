@@ -1,17 +1,17 @@
 import { useRouter } from 'next/router';
-import { useQuery, QueryClient } from 'react-query';
-import { dehydrate } from 'react-query/hydration';
-import axios from 'axios';
+import { useQuery, QueryClient, useQueryClient } from 'react-query';
+import { getSheet } from '../../service/queryFns';
 import KeybindList from '../../components/KeybindList';
 import TextField from '../../components/Textfield';
-import config from '../../config';
 
 
-const FavoriteButton = () => (
-  <td className="text-sm sm:text-base p-2">
-    <button>🤍</button>
-  </td>
-);
+const FavoriteButton = () => {
+  return (
+    <td className="text-sm sm:text-base p-2">
+      <button>🤍</button>
+    </td>
+  );
+};
 
 const columns = [
   {
@@ -36,17 +36,17 @@ const columns = [
   },
 ];
 
-const getSheet = async () => {
-  const sheetId = 1;
-  const res = await axios(`${config.API_ENDPOINT}/sheet/${sheetId}`);
-  return res.data;
-};
-
 const Sheet = () => {
   const router = useRouter();
   const { sheetName } = router.query;
 
-  const { isError, isLoading, data, error } = useQuery('sheet', getSheet);
+  const queryClient = useQueryClient();
+
+  const sheetsData = queryClient.getQueryData('sheets');
+  const sheetRecord = sheetsData?.find(sheet => sheet.name === sheetName);
+  const id = sheetRecord?.id;
+
+  const { isError, isLoading, data, error } = useQuery(['sheet', id], () => getSheet(id));
 
   if (isLoading) return <div>Loading...</div>;
 
@@ -73,16 +73,5 @@ const Sheet = () => {
     return null;
   }
 };
-
-export async function getServerSideProps() {
-  const queryClient = new QueryClient();
-  await queryClient.prefetchQuery('sheet', getSheet);
-
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
-}
 
 export default Sheet;

@@ -1,4 +1,4 @@
-import { HTMLAttributes, ReactNode, useLayoutEffect, useRef, useState } from 'react';
+import { HTMLAttributes, ReactNode, useEffect, useRef, useState } from 'react';
 
 interface AccordionProps {
   children: ReactNode;
@@ -45,15 +45,14 @@ export const AngleDownIcon = (props) => (
 
 export const Accordion = ({ children, isOpen }: AccordionProps) => {
   const childRef = useRef<HTMLDivElement>(null);
-  const [height, setHeight] = useState(null);
+  const [height, setHeight] = useState<null | number>(null);
 
-  useLayoutEffect(() => {
-      const childHeight = childRef?.current.scrollHeight;
-      setHeight(childHeight);
+  useEffect(() => {
+    const childHeight = childRef?.current.scrollHeight;
+    setHeight(childHeight);
   }, []);
-  
-  const inlineStyle =
-    isOpen ? { height } : { height: 0 };
+
+  const inlineStyle = isOpen ? { height } : { height: 0 };
 
   return (
     <div className={style.accordion} ref={childRef} style={inlineStyle}>
@@ -68,7 +67,11 @@ export const AccordionHeader = ({
   onClick,
   isOpen = false,
 }: AccordionHeaderProps) => (
-  <div role="button" onClick={onClick} className={style.accordionHeader[variant]}>
+  <div
+    role="button"
+    onClick={onClick}
+    className={style.accordionHeader[variant]}
+  >
     {children}
     <span className="float-right">
       {isOpen ? (
@@ -79,4 +82,3 @@ export const AccordionHeader = ({
     </span>
   </div>
 );
-
