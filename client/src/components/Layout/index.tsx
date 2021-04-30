@@ -1,8 +1,8 @@
 import Head from 'next/head';
 import Navbar from './Navbar';
 import Footer from './Footer';
-import { getSheets } from '../../service/queryFns';
-import { useQuery } from 'react-query';
+import { getFavorites, getSheets } from '../../service/queryFns';
+import { useQueries } from 'react-query';
 
 export const siteTitle = 'Next.js Sample Website';
 
@@ -13,8 +13,12 @@ export default function Layout({
   children: React.ReactNode;
   home?: boolean;
 }) {
-  // calling useQuery here caches api data for any page to access
-  useQuery('sheets', getSheets);
+  // calling useQuery(ies) here SHOULD cache api data on mount
+  // for any page to access
+  useQueries([
+    { queryKey: 'sheets', queryFn: getSheets },
+    { queryKey: 'favorites', queryFn: getFavorites },
+  ]);
   return (
     <div>
       <Head>
