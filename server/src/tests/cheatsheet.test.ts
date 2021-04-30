@@ -1,5 +1,12 @@
+import express from 'express';
+import routes from '../routes';
 import { createConnection, getConnection, getRepository } from 'typeorm';
 import { Cheatsheet } from '../entity/Cheatsheet';
+import supertest from 'supertest';
+
+const app = express();
+app.use(express.json());
+app.use('/', routes);
 
 beforeEach(() => {
   return createConnection({
@@ -29,4 +36,22 @@ test('store vscode and fetch it', async () => {
     },
   });
   expect(vscode[0].name).toBe('vscode');
+});
+
+test('GET /sheet', async () => {
+  await getRepository(Cheatsheet).insert([
+    { name: 'vscode', logoUrl: 'assets/images/vscodo-logo.png' },
+    { name: 'photoshop', logoUrl: 'assets/images/photoshop-logo.png' },
+  ]);
+
+  await supertest(app)
+    .get('/sheet')
+    .expect(200)
+    .then((response) => {
+      expect(Array.isArray(response.body)).toBeTruthy();
+      expect(response.body.length).toEqual(2);
+      expect(response.body[1].logoUrl).toEqual(
+        'assets/images/photoshop-logo.png'
+      );
+    });
 });
