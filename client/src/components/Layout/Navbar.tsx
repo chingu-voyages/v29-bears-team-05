@@ -19,7 +19,7 @@ export default function Navbar() {
               KEYBOUND
             </a>
             <button
-              className="block px-3 py-1 text-xl leading-none text-gray-700 bg-transparent border border-transparent border-solid rounded outline-none cursor-pointer lg:hidden focus:outline-none"
+              className="block px-3 py-1 text-xl leading-none text-white bg-transparent border border-transparent border-solid rounded outline-none cursor-pointer lg:hidden focus:outline-none"
               type="button"
               onClick={() => setNavbarOpen(!navbarOpen)}
             >
@@ -42,15 +42,16 @@ export default function Navbar() {
           <div
             className={
               'lg:flex flex-grow items-center' +
-              (navbarOpen ? ' flex' : ' hidden')
+              (navbarOpen ? 'flex' : ' hidden')
             }
             id="example-navbar-danger"
+                   
           >
             <ul className="flex flex-col list-none lg:flex-row lg:ml-auto">
               <li className="nav-item mr-3">
                 <a href="/sheets" className="hover:no-underline">
                   <button
-                  className="flex items-center px-3 py-2 text-xs text-base font-bold leading-snug text-white border-b border-white border-opacity-0 hover:border-green-300 focus:outline-none"
+                  className="flex items-center px-3 py-2 text-xs text-base font-bold leading-snug text-white border-b-2 border-white border-opacity-0 hover:border-green-300 focus:outline-none transition duration-500 ease-in-out"
                   type="button"
                   >
                     Sheets
@@ -59,7 +60,7 @@ export default function Navbar() {
               </li>
               <li className="nav-item">
                 <button
-                  className="flex items-center px-2 py-2 text-xs text-base font-bold leading-snug text-white border-b border-white border-opacity-0 hover:border-green-300 focus:outline-none"
+                  className="flex items-center px-2 py-2 text-xs text-base font-bold leading-snug text-white border-b-2 border-white border-opacity-0 hover:border-green-300 focus:outline-none transition duration-500 ease-in-out focus:outline-none"
                   type="button"
                   onClick={() => setShowModal(true)}
                 >
