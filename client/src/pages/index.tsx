@@ -1,5 +1,14 @@
-import Cardlist from '../components/Cardlist';
+import Hero from '../components/LandingPage/Hero'
+import Explainer from '../components/LandingPage/Explainer'
+import SheetSelector from '../components/LandingPage/SheetSelector'
 
 export default function Home() {
-  return <Cardlist />;
+  return (
+    <>
+      <Hero />
+      <Explainer />
+      <SheetSelector />
+    </>
+  );
 }
+  
