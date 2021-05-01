@@ -15,14 +15,14 @@ const KeybindList = ({ sheetData, columns, titleField }: Props) => {
   );
 
   return (
-    <React.Fragment>
+    <div>
       {categories.map((title, i) => {
         const tableData = _.filter(sheetData, { categoryId: i + 1 });
         return (
           <Table key={i} title={title} data={tableData} columns={columns} />
         );
       })}
-    </React.Fragment>
+    </div>
   );
 };
 
