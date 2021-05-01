@@ -15,14 +15,19 @@ const login = async (req: Request, res: Response) => {
   }
 
   const userRepository = getRepository(User);
-  let user: User;
-
-  try {
-    user = await userRepository.findOneOrFail({ where: { username } });
-  } catch (error) {
-    res.status(401).send();
-    return;
-  }
+  const user = (await userRepository
+    .findOneOrFail({
+      where: { username: username },
+      relations: [
+        'userFavorites',
+        'userFavorites.cheatsheet',
+        'userFavorites.cheatsheetCategory',
+      ],
+    })
+    .catch(() => {
+      res.status(401).send();
+      return;
+    })) as User;
 
   const validPassword = await user.validatedUnencryptedPassword(password);
   if (!validPassword) {
@@ -38,7 +43,8 @@ const login = async (req: Request, res: Response) => {
     }
   );
 
-  res.send({ token });
+  const { id, userFavorites } = user;
+  res.send({ user: { id, username, userFavorites }, token });
 };
 
 const changePassword = async (req: Request, res: Response) => {
