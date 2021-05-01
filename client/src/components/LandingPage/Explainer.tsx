@@ -11,7 +11,7 @@ export default function Explainer() {
                     </div>
                     <div className="border border-gray-700 py-20 px-10 w-10/12 text-center">
                         **GIF will go here**
-                    </div> 
+                    </div>
                 </div>
             </div>
         </>

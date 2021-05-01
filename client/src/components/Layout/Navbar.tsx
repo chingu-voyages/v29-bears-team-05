@@ -45,7 +45,7 @@ export default function Navbar() {
               (navbarOpen ? 'flex' : ' hidden')
             }
             id="example-navbar-danger"
-                   
+
           >
             <ul className="flex flex-col list-none lg:flex-row lg:ml-auto">
               <li className="nav-item mr-3">
@@ -64,7 +64,7 @@ export default function Navbar() {
                   type="button"
                   onClick={() => setShowModal(true)}
                 >
-                  LOGIN / Sign up  
+                  LOGIN / Sign up
                 </button>
               </li>
 

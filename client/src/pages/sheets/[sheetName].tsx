@@ -3,14 +3,15 @@ import KeybindList from '../../components/KeybindList';
 import TextField from '../../components/Textfield';
 import data from '../../lib/mockData/index';
 
-
 const FavoriteButton = () => (
-  <td className="text-sm sm:text-base p-2">
+  <td className="p-2 text-sm sm:text-base">
     <button>🤍</button>
   </td>
 );
 
-const columns = [
+type Column = { header: string; component: React.ReactNode; colWidth: string };
+
+const columns: Column[] = [
   {
     header: 'Shortcut',
     component: <TextField source="keyCombination" />,
