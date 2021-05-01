@@ -1,23 +1,26 @@
 import Link from 'next/link';
-import data from '../lib/mockData/index';
 import Card from './Card';
 
-const Cardlist = () => {
-  return (
-    <div>
-      <ul className="my-12 md:flex md:flex-wrap md:justify-center">
-        {data.map((list) => (
-          <li key={list[0].cheatsheetId}>
-            <Link href={`/sheets/${list[0].cheatsheet}`}>
-              <a>
-                <Card list={list} />
-              </a>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+const Cardlist = ({ data, title }) => {
+  if (data) {
+    return (
+      <div>
+        <ul className="my-12 md:flex md:flex-wrap md:justify-center">
+          {data.map((list, i) => (
+            <li key={list.id}>
+              <Link href={`/${title}/${list.name}`}>
+                <a>
+                  <Card list={list} />
+                </a>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  } else {
+    return null;
+  }
 };
 
 export default Cardlist;
