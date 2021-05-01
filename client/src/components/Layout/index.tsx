@@ -1,6 +1,8 @@
 import Head from 'next/head';
 import Navbar from './Navbar';
 import Footer from './Footer';
+import { getFavorites, getSheets } from '../../service/queryFns';
+import { useQueries } from 'react-query';
 
 export const siteTitle = 'Next.js Sample Website';
 
@@ -11,6 +13,12 @@ export default function Layout({
   children: React.ReactNode;
   home?: boolean;
 }) {
+  // calling useQuery(ies) here SHOULD cache api data on mount
+  // for any page to access
+  useQueries([
+    { queryKey: 'sheets', queryFn: getSheets },
+    { queryKey: 'favorites', queryFn: getFavorites },
+  ]);
   return (
     <div>
       <Head>
@@ -29,7 +37,7 @@ export default function Layout({
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <div className="flex flex-col min-h-screen ">
-        <Navbar/>
+        <Navbar />
         <header></header>
         <main className="flex-grow">{children}</main>
         <Footer />

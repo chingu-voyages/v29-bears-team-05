@@ -216,7 +216,7 @@ Steps to run this project:
 
 ### Login User
 ----
-  Returns json data of a token after successful validation of login credentials
+  Returns json data of a token and user details after successful validation of login credentials
 
 * **URL**
 
@@ -241,7 +241,30 @@ Steps to run this project:
     **Content:** 
     ```
     {
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MTFhMzA0OS1kYTc4LTQ1MjgtODM2Mi1jNDFmNzZmYjFiZDUiLCJ1c2VybmFtZSI6ImJvbm5pZSIsImlhdCI6MTYxOTQwNDg4OCwiZXhwIjoxNjE5NDA4NDg4fQ.HDtlsIHUJRIkrKXGpXp9uuC33qQbSm36YQ0Ej1Mxan8"
+    "user": {
+        "id": "356ffc56-da33-415f-ab5c-4f30c4b1a7e0",
+        "username": "bonnie",
+        "userFavorites": [
+            {
+                "id": "7ada7ded-a1cb-4d23-bf9b-610d3269333a",
+                "name": "Ctrl+Shift+P, F1",
+                "keyCombination": "Ctrl+Shift+P, F1",
+                "description": "Show Command Palette",
+                "likes": 1,
+                "cheatsheet": {
+                    "id": 1,
+                    "name": "vscode",
+                    "logoUrl": ""
+                },
+                "cheatsheetCategory": {
+                    "id": "c07f2cd1-952a-42b1-b2e2-a72090391ef7",
+                    "name": "General",
+                    "index": 0
+                }
+            }
+        ]
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzNTZmZmM1Ni1kYTMzLTQxNWYtYWI1Yy00ZjMwYzRiMWE3ZTAiLCJ1c2VybmFtZSI6ImJvbm5pZSIsImlhdCI6MTYxOTg4NDU4MywiZXhwIjoxNjE5ODg4MTgzfQ.HAc_l8dEQvOMFuC_qZMXTVJ1pAA1IgdSkyDpHUZR5P4"
     }
     ```
 

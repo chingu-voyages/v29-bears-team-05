@@ -1,5 +1,26 @@
 import Cardlist from '../../ui/Cardlist';
+import { useQuery, QueryClient } from 'react-query';
+import { dehydrate } from 'react-query/hydration';
+import { getSheets } from '../../service/queryFns';
 
 export default function Sheets() {
-  return <Cardlist />;
+  const { isError, isLoading, data, error } = useQuery('sheets', getSheets);
+
+  if (isLoading) return <div>Loading...</div>;
+
+  if (isError) {
+    return <span>Error: {error.message}</span>;
+  }
+  return <Cardlist data={data} title="sheets" />;
+}
+
+export async function getServerSideProps() {
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery('sheets', getSheets);
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
 }

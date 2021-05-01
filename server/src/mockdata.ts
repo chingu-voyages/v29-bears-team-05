@@ -1,4 +1,4 @@
-import data from '../../client/src/lib/mockData/vscodeMaster.json';
+import data from './utils/vsCodeMaster.json';
 import { createConnection } from 'typeorm';
 import { CheatsheetCategory } from './entity/CheatsheetCategory';
 import { Cheatsheet } from './entity/Cheatsheet';
