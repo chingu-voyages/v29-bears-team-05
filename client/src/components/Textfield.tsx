@@ -1,6 +1,6 @@
-const TextField = ({ record, source }) => {
+const TextField = ({ record, source }: { record?: any; source: string }) => {
   return (
-    <td className="text-sm sm:text-base p-2">
+    <td className="p-2 text-sm sm:text-base">
       <span>{record[source]}</span>
     </td>
   );

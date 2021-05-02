@@ -45,10 +45,10 @@ export const AngleDownIcon = (props) => (
 
 export const Accordion = ({ children, isOpen }: AccordionProps) => {
   const childRef = useRef<HTMLDivElement>(null);
-  const [height, setHeight] = useState<null | number>(null);
+  const [height, setHeight] = useState<number | undefined>(undefined);
 
   useEffect(() => {
-    const childHeight = childRef?.current.scrollHeight;
+    const childHeight = childRef?.current?.scrollHeight;
     setHeight(childHeight);
   }, []);
 
@@ -75,9 +75,9 @@ export const AccordionHeader = ({
     {children}
     <span className="float-right">
       {isOpen ? (
-        <AngleUpIcon className="mt-1 h-4" />
+        <AngleUpIcon className="h-4 mt-1" />
       ) : (
-        <AngleDownIcon className="mt-1 h-4" />
+        <AngleDownIcon className="h-4 mt-1" />
       )}
     </span>
   </div>

@@ -4,16 +4,15 @@ import { getSheet } from '../../service/queryFns';
 import KeybindList from '../../components/KeybindList';
 import TextField from '../../components/Textfield';
 
+const FavoriteButton = () => (
+  <td className="p-2 text-sm sm:text-base">
+    <button>🤍</button>
+  </td>
+);
 
-const FavoriteButton = () => {
-  return (
-    <td className="text-sm sm:text-base p-2">
-      <button>🤍</button>
-    </td>
-  );
-};
+type Column = { header: string; component: React.ReactNode; colWidth: string };
 
-const columns = [
+const columns: Column[] = [
   {
     header: 'Shortcut',
     component: <TextField source="keyCombination" />,
@@ -43,10 +42,12 @@ const Sheet = () => {
   const queryClient = useQueryClient();
 
   const sheetsData = queryClient.getQueryData('sheets');
-  const sheetRecord = sheetsData?.find(sheet => sheet.name === sheetName);
+  const sheetRecord = sheetsData?.find((sheet) => sheet.name === sheetName);
   const id = sheetRecord?.id;
 
-  const { isError, isLoading, data, error } = useQuery(['sheet', id], () => getSheet(id));
+  const { isError, isLoading, data, error } = useQuery(['sheet', id], () =>
+    getSheet(id)
+  );
 
   if (isLoading) return <div>Loading...</div>;
 
