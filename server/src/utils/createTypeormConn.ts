@@ -11,7 +11,9 @@ const getOptions = async () => {
     connectionOptions = {
       type: 'postgres',
       extra: {
-        ssl: true,
+        ssl: {
+          rejectUnauthorized: false,
+        },
       },
       url: process.env.DATABASE_URL,
       entities: ['dist/entity/*.*'],
@@ -34,5 +36,6 @@ export const createTypeormConn = async (isDev: boolean = true) => {
     synchronize: isDev,
     dropSchema: isDev,
     migrationsRun: !isDev,
+    ssl: true,
   });
 };

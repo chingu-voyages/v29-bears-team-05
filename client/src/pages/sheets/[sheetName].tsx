@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useQuery, QueryClient, useQueryClient } from 'react-query';
+import { useQuery, UseQueryResult, useQueryClient } from 'react-query';
 import { getSheet } from '../../service/queryFns';
 import KeybindList from '../../components/KeybindList';
 import TextField from '../../components/Textfield';
@@ -41,18 +41,23 @@ const Sheet = () => {
 
   const queryClient = useQueryClient();
 
-  const sheetsData = queryClient.getQueryData('sheets');
+  const sheetsData = queryClient.getQueryData<any[]>('sheets');
   const sheetRecord = sheetsData?.find((sheet) => sheet.name === sheetName);
   const id = sheetRecord?.id;
 
-  const { isError, isLoading, data, error } = useQuery(['sheet', id], () =>
+  const {
+    isError,
+    isLoading,
+    data,
+    error,
+  }: UseQueryResult<any[], { message: string }> = useQuery(['sheet', id], () =>
     getSheet(id)
   );
 
   if (isLoading) return <div>Loading...</div>;
 
   if (isError) {
-    return <span>Error: {error.message}</span>;
+    return <span>Error: {error?.message}</span>;
   }
 
   if (data) {

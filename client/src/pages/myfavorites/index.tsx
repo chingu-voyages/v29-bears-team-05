@@ -1,15 +1,23 @@
 import Cardlist from '../../ui/Cardlist';
-import { useQuery, QueryClient } from 'react-query';
+import { useQuery, QueryClient, UseQueryResult } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { getSheets } from '../../service/queryFns';
 
 export default function MyFavorites() {
-  const { isError, isLoading, data, error } = useQuery('sheets', getSheets);
+  const {
+    isError,
+    isLoading,
+    data,
+    error,
+  }: UseQueryResult<unknown, { message: string }> = useQuery(
+    'sheets',
+    getSheets
+  );
 
   if (isLoading) return <div>Loading...</div>;
 
   if (isError) {
-    return <span>Error: {error.message}</span>;
+    return <span>Error: {error?.message}</span>;
   }
   return <Cardlist data={data} title="myfavorites" />;
 }
