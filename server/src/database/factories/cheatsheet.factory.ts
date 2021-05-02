@@ -1,8 +1,8 @@
-import * as Faker from 'faker';
+import faker from 'faker';
 import { Cheatsheet } from '../../entity/Cheatsheet';
 import { define } from 'typeorm-seeding';
 
-define(Cheatsheet, (faker: typeof Faker) => {
+define(Cheatsheet, () => {
   const cheatsheet = new Cheatsheet();
   cheatsheet.id = faker.datatype.number();
   cheatsheet.name = faker.random.word();
