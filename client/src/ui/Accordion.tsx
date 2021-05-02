@@ -1,10 +1,4 @@
-import {
-  HTMLAttributes,
-  ReactNode,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from 'react';
+import { HTMLAttributes, ReactNode, useEffect, useRef, useState } from 'react';
 
 interface AccordionProps {
   children: ReactNode;
@@ -53,7 +47,7 @@ export const Accordion = ({ children, isOpen }: AccordionProps) => {
   const childRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState<number | undefined>(undefined);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const childHeight = childRef?.current?.scrollHeight;
     setHeight(childHeight);
   }, []);
