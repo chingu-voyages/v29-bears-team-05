@@ -15,6 +15,7 @@ const getOptions = async () => {
       },
       url: process.env.DATABASE_URL,
       entities: ['dist/entity/*.*'],
+      migrations: ['dist/migrations/*.*'],
     };
   } else {
     connectionOptions = await getConnectionOptions();
