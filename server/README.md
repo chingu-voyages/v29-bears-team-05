@@ -13,7 +13,7 @@ Steps to run this project:
     CORS_ORIGIN=http://localhost:3000
     ```
 7. Run `npm start` command
-8. Run `npm run mockdata` command to populate mock data to database
+8. Run `npm run seed:run` command to populate mock data to database
 
 ## API
 
