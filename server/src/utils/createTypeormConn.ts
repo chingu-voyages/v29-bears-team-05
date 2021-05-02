@@ -11,7 +11,9 @@ const getOptions = async () => {
     connectionOptions = {
       type: 'postgres',
       extra: {
-        ssl: true,
+        ssl: {
+          rejectUnauthorized: false,
+        },
       },
       url: process.env.DATABASE_URL,
       entities: ['dist/entity/*.*'],
