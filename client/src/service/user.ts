@@ -1,8 +1,6 @@
-import config from '../config';
-
 const Users = {
   register(newUser) {
-    return fetch(`${config.API_ENDPOINT}/user`, {
+    return fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/user`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
