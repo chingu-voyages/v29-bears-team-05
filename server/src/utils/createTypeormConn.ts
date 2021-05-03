@@ -36,6 +36,5 @@ export const createTypeormConn = async (isDev: boolean = true) => {
     synchronize: isDev,
     dropSchema: isDev,
     migrationsRun: !isDev,
-    ssl: true,
   });
 };
