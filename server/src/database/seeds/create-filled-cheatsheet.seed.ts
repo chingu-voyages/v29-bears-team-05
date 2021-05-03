@@ -9,6 +9,7 @@ export class CreateFilledCheatsheet implements Seeder {
   public async run(factory: Factory, connection: Connection): Promise<any> {
     const cheatsheet = await factory(Cheatsheet)().create();
     const categories = await factory(CheatsheetCategory)().createMany(8);
+    categories.forEach((category, index) => (category.index = index));
     const keybinds = await factory(Keybind)()
       .map(async (keybind) => {
         keybind.cheatsheet = cheatsheet;
