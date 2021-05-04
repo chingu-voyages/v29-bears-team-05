@@ -1,8 +1,10 @@
 import { useRouter } from 'next/router';
-import { useQuery, QueryClient, useQueryClient } from 'react-query';
-import { getFavorites, getSheet } from '../../service/queryFns';
+import { useQuery, useQueryClient } from 'react-query';
+import { getSheet } from '../../service/queryFns';
 import KeybindList from '../../components/KeybindList';
 import TextField from '../../components/Textfield';
+import { useAuth } from '../../context/AuthContext';
+import { useEffect } from 'react';
 
 const columns = [
     {
@@ -21,12 +23,21 @@ const Sheet = () => {
     const router = useRouter();
     const { bindingSet } = router.query;
 
-    const { data: response } = useQuery('favorites', getFavorites);
-    const user = response?.user;
-    const favorites = user?.userFavorites;
-    const favoritesArray = favorites?.map(record => record.id);
+    const isLoggedIn = useAuth();
+
+    useEffect(() => {
+        if (isLoggedIn === false) {
+            router.push(`/`);
+        }
+    }, [isLoggedIn, router]);
 
     const queryClient = useQueryClient();
+
+    const favoritesData = queryClient.getQueryData('favorites');
+
+    const user = favoritesData?.user;
+    const favorites = user?.userFavorites;
+    const favoritesArray = favorites?.map(record => record.id);
 
     const sheetsData = queryClient.getQueryData('sheets');
     const sheetRecord = sheetsData?.find(sheet => sheet.name === bindingSet);
@@ -40,7 +51,7 @@ const Sheet = () => {
         return <span>Error: {error.message}</span>;
     }
 
-    if (data) {
+    if (data && isLoggedIn) {
         return (
             <div className="mb-20">
                 <div className="text-center">

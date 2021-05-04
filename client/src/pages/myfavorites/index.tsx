@@ -2,8 +2,20 @@ import Cardlist from '../../ui/Cardlist';
 import { useQuery, QueryClient, UseQueryResult } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { getSheets } from '../../service/queryFns';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { useAuth } from '../../context/AuthContext';
 
 export default function MyFavorites() {
+  const router = useRouter();
+  const isLoggedIn = useAuth();
+
+  useEffect(() => {
+    if (isLoggedIn === false) {
+      router.push(`/`);
+    }
+  }, [isLoggedIn, router]);
+
   const {
     isError,
     isLoading,
@@ -19,7 +31,8 @@ export default function MyFavorites() {
   if (isError) {
     return <span>Error: {error?.message}</span>;
   }
-  return <Cardlist data={data} title="myfavorites" />;
+
+  return isLoggedIn ? <Cardlist data={data} title="myfavorites" /> : null;
 }
 
 export async function getServerSideProps() {
