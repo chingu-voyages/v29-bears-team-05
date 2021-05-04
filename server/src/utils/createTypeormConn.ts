@@ -26,7 +26,7 @@ const getOptions = async () => {
   return connectionOptions;
 };
 
-export const createTypeormConn = async (isDev: boolean = true) => {
+export const createTypeormConn = async (isDev = true) => {
   const connectionOptions = await getOptions();
 
   return createConnection({

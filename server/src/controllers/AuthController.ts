@@ -27,29 +27,12 @@ const login = async (req: Request, res: Response) => {
       ],
     });
   } catch (err) {
-    console.error(err);
     res.status(401).send(err.message);
 
     return;
   }
 
-  //   const user = (await userRepository
-  //     .findOneOrFail({
-  //       where: { username },
-  //       relations: [
-  //         'userFavorites',
-  //         'userFavorites.cheatsheet',
-  //         'userFavorites.cheatsheetCategory',
-  //       ],
-  //     })
-  //     .catch(() => {
-  //       res.status(401).send();
-  //     })) as User;
-
-  console.log('👀 ~ file: AuthController.ts ~ line 34 ~ login ~ user', user);
-  const validPassword = await user
-    .validatedUnencryptedPassword(password)
-    .catch((err) => console.error(err));
+  const validPassword = await user.validatedUnencryptedPassword(password);
 
   if (!validPassword) {
     res.status(401).send();
