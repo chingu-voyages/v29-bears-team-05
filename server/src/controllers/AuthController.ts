@@ -8,7 +8,7 @@ import config from '../config/config';
 const TOKEN_EXPIRATION_DURATION = '1h';
 
 const login = async (req: Request, res: Response) => {
-  let { username, password } = req.body;
+  const { username, password } = req.body;
 
   if (!(username && password)) {
     res.status(400).send();
@@ -17,7 +17,7 @@ const login = async (req: Request, res: Response) => {
   const userRepository = getRepository(User);
   const user = (await userRepository
     .findOneOrFail({
-      where: { username: username },
+      where: { username },
       relations: [
         'userFavorites',
         'userFavorites.cheatsheet',
@@ -26,12 +26,16 @@ const login = async (req: Request, res: Response) => {
     })
     .catch(() => {
       res.status(401).send();
-      return;
     })) as User;
 
-  const validPassword = await user.validatedUnencryptedPassword(password);
+  console.log('👀 ~ file: AuthController.ts ~ line 34 ~ login ~ user', user);
+  const validPassword = await user
+    .validatedUnencryptedPassword(password)
+    .catch((err) => console.error(err));
+
   if (!validPassword) {
     res.status(401).send();
+
     return;
   }
 
@@ -44,6 +48,7 @@ const login = async (req: Request, res: Response) => {
   );
 
   const { id, userFavorites } = user;
+
   res.send({ user: { id, username, userFavorites }, token });
 };
 
@@ -62,11 +67,13 @@ const changePassword = async (req: Request, res: Response) => {
     user = await userRepository.findOneOrFail(id);
   } catch (id) {
     res.status(401).send();
+
     return;
   }
 
   if (!user.validatedUnencryptedPassword(oldPassword)) {
     res.status(401).send();
+
     return;
   }
 
@@ -75,6 +82,7 @@ const changePassword = async (req: Request, res: Response) => {
 
   if (errors.length > 0) {
     res.status(400).send(errors);
+
     return;
   }
 
