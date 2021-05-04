@@ -9,24 +9,42 @@ const TOKEN_EXPIRATION_DURATION = '1h';
 
 const login = async (req: Request, res: Response) => {
   const { username, password } = req.body;
+  let user;
 
   if (!(username && password)) {
     res.status(400).send();
   }
 
   const userRepository = getRepository(User);
-  const user = (await userRepository
-    .findOneOrFail({
+
+  try {
+    user = await userRepository.findOneOrFail({
       where: { username },
       relations: [
         'userFavorites',
         'userFavorites.cheatsheet',
         'userFavorites.cheatsheetCategory',
       ],
-    })
-    .catch(() => {
-      res.status(401).send();
-    })) as User;
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(401).send(err.message);
+
+    return;
+  }
+
+  //   const user = (await userRepository
+  //     .findOneOrFail({
+  //       where: { username },
+  //       relations: [
+  //         'userFavorites',
+  //         'userFavorites.cheatsheet',
+  //         'userFavorites.cheatsheetCategory',
+  //       ],
+  //     })
+  //     .catch(() => {
+  //       res.status(401).send();
+  //     })) as User;
 
   console.log('👀 ~ file: AuthController.ts ~ line 34 ~ login ~ user', user);
   const validPassword = await user
