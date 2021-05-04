@@ -108,7 +108,7 @@ const getOneById = async (req: Request, res: Response) => {
     });
     res.send(user);
   } catch (error) {
-    res.status(404).send('User not found');
+    res.status(404).send(error);
   }
 };
 
