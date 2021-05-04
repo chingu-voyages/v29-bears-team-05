@@ -27,7 +27,8 @@ const login = async (req: Request, res: Response) => {
       ],
     });
   } catch (err) {
-    res.status(401).send(err.message);
+    console.log(err);
+    res.status(401).send(err);
 
     return;
   }
