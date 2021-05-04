@@ -16,7 +16,7 @@ export const getSheet = async (id: number) => {
 };
 
 export const getFavorites = async () => {
-  if (Token.hasAuthToken()) {
+  if (Token.hasAuthToken() && !Token.isExpired()) {
     const token = Token.getAuthToken();
 
     const fetchConfig = {
