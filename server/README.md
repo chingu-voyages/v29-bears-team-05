@@ -376,7 +376,6 @@ Steps to run this project:
   ```
     {
         "keybinds": "uuid-uuid-uuid-uuid"
-        }
     }
   ```
   or
