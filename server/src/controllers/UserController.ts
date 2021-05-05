@@ -26,19 +26,19 @@ const getFavorites = async (req: Request, res: Response) => {
   }
 };
 
-const addFavorite = async (reqr: Request, res: Response) => {
-  const userId = reqr.body.user.id;
+const addFavorite = async (req: Request, res: Response) => {
+  const userId = req.body.user.id;
 
-  if ('keybinds' in reqr.body === false) {
+  if ('keybinds' in req.body === false) {
     res.status(400).send('Error: keybinds property not in request');
     return;
   }
 
   let query = [] as string[];
-  if (typeof reqr.body.keybinds === 'string') {
-    query = [reqr.body.keybinds];
-  } else if (Array.isArray(reqr.body.keybinds)) {
-    query = reqr.body.keybinds;
+  if (typeof req.body.keybinds === 'string') {
+    query = [req.body.keybinds];
+  } else if (Array.isArray(req.body.keybinds)) {
+    query = req.body.keybinds;
   } else {
     res.status(400).send('Error: keybinds not an Array<string> or a string');
     return;
