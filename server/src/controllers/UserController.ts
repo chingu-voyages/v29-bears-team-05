@@ -28,7 +28,21 @@ const getFavorites = async (req: Request, res: Response) => {
 
 const addFavorite = async (reqr: Request, res: Response) => {
   const userId = reqr.body.user.id;
-  const queryIds = reqr.body.keybinds as Array<string>;
+
+  if ('keybinds' in reqr.body === false) {
+    res.status(400).send('Error: keybinds property not in request');
+    return;
+  }
+
+  let query = [] as string[];
+  if (typeof reqr.body.keybinds === 'string') {
+    query = [reqr.body.keybinds];
+  } else if (Array.isArray(reqr.body.keybinds)) {
+    query = reqr.body.keybinds;
+  } else {
+    res.status(400).send('Error: keybinds not an Array<string> or a string');
+    return;
+  }
 
   const userRepository = getRepository(User);
   const keybindRepository = getRepository(Keybind);
@@ -43,7 +57,7 @@ const addFavorite = async (reqr: Request, res: Response) => {
 
   // remove if keybind is already in list
   const keybinds_id = user.userFavorites.map((x) => x.id);
-  const filtered = queryIds.filter((x) => !keybinds_id.includes(x));
+  const filtered = query.filter((x) => !keybinds_id.includes(x));
 
   // get valid keybinds from repository
   const keybindsToAdd = [];
