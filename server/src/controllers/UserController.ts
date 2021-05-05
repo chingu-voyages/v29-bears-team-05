@@ -28,7 +28,7 @@ const getFavorites = async (req: Request, res: Response) => {
 
 const addFavorite = async (reqr: Request, res: Response) => {
   const userId = reqr.body.user.id;
-  const queryId = reqr.body.keybind.id;
+  const queryIds = reqr.body.keybinds as Array<string>;
 
   const userRepository = getRepository(User);
   const keybindRepository = getRepository(Keybind);
@@ -41,21 +41,30 @@ const addFavorite = async (reqr: Request, res: Response) => {
     })
     .catch(() => res.status(404).send('User not found'))) as User;
 
-  // reject if keybind is already in list
+  // remove if keybind is already in list
   const keybinds_id = user.userFavorites.map((x) => x.id);
-  if (keybinds_id.includes(queryId)) {
-    res.status(402).send('Keybind already in favorites');
-    return;
+  const filtered = queryIds.filter((x) => !keybinds_id.includes(x));
+
+  // get valid keybinds from repository
+  const keybindsToAdd = [];
+  for (let i = 0; i < filtered.length; i++) {
+    const keybind = await keybindRepository
+      .findOneOrFail(filtered[i])
+      .catch((err) => console.log(err)); // TODO: find better way to handle failed queries
+    if (keybind) {
+      keybindsToAdd.push(keybind);
+    }
   }
 
-  const keybind = (await keybindRepository
-    .findOneOrFail(queryId)
-    .catch(() => res.status(404).send('Keybind not found'))) as Keybind;
+  // update the user favorites
+  keybindsToAdd.forEach((keybind) => {
+    keybind.likes = keybind.likes + 1;
+    user.userFavorites.push(keybind);
+  });
 
-  keybind.likes = keybind.likes + 1;
-  user.userFavorites.push(keybind);
   await userRepository.save(user);
-  res.status(200).send(user);
+
+  res.status(200).send({ user });
 };
 
 const deleteFavorite = async (req: Request, res: Response) => {
