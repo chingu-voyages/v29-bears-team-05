@@ -68,7 +68,7 @@ const addFavorite = async (req: Request, res: Response) => {
   for (let i = 0; i < filtered.length; i++) {
     const keybind = await keybindRepository
       .findOneOrFail(filtered[i])
-      .catch((err) => console.log(err)); // TODO: find better way to handle failed queries
+      .catch(() => console.log('Keybind id not found in repository'));
     if (keybind) {
       keybindsToAdd.push(keybind);
     }

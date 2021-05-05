@@ -353,7 +353,7 @@ Steps to run this project:
 
   ```
 
-### Add Keybind to User Favorites
+### Add Keybinds to User Favorites
 ----
   Returns json data about a single user and its updated keybindings
 
@@ -375,10 +375,17 @@ Steps to run this project:
 
   ```
     {
-        "keybind": {
-            "id": "id"
+        "keybinds": "uuid-uuid-uuid-uuid"
         }
     }
+  ```
+  or
+  ```
+  {
+    "keybinds":
+        ["uuid-uuid-uuid-uuid-uuid","uuid-uuid-uuid-uuid-uuid","uuid-uuid-uuid-uuid-uuid", ...]
+
+  }
   ```
 
 * **Success Response:**
