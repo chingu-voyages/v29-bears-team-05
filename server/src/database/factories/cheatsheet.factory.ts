@@ -4,8 +4,10 @@ import { define } from 'typeorm-seeding';
 
 define(Cheatsheet, () => {
   const cheatsheet = new Cheatsheet();
-  cheatsheet.id = faker.datatype.number();
+
+  cheatsheet.id = faker.datatype.uuid();
   cheatsheet.name = faker.random.word();
   cheatsheet.logoUrl = faker.image.imageUrl();
+
   return cheatsheet;
 });

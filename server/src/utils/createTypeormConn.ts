@@ -26,7 +26,7 @@ const getOptions = async () => {
   return connectionOptions;
 };
 
-export const createTypeormConn = async (isDev: boolean = true) => {
+export const createTypeormConn = async (isDev = true) => {
   const connectionOptions = await getOptions();
 
   return createConnection({
@@ -34,7 +34,6 @@ export const createTypeormConn = async (isDev: boolean = true) => {
     name: 'default',
     logging: isDev,
     synchronize: isDev,
-    dropSchema: isDev,
     migrationsRun: !isDev,
   });
 };

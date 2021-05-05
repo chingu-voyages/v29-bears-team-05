@@ -108,13 +108,13 @@ const getOneById = async (req: Request, res: Response) => {
     });
     res.send(user);
   } catch (error) {
-    res.status(404).send('User not found');
+    res.status(404).send(error);
   }
 };
 
 const createUser = async (req: Request, res: Response) => {
-  let { username, email, password } = req.body;
-  let user = new User();
+  const { username, email, password } = req.body;
+  const user = new User();
 
   user.username = username;
   user.password = password;
@@ -125,8 +125,6 @@ const createUser = async (req: Request, res: Response) => {
     res.status(400).send(errors);
     return;
   }
-
-  user.hashPassword();
 
   const userRepository = getRepository(User);
   try {
