@@ -28,15 +28,20 @@ const login = async (req: Request, res: Response) => {
     });
   } catch (err) {
     console.log(err);
-    res.status(401).send(err);
+    res.status(401).send(err.message);
 
     return;
   }
 
-  const validPassword = await user.validatedUnencryptedPassword(password);
+  const validPassword = await user
+    .validatedUnencryptedPassword(password)
+    .catch((err) => {
+      console.log(err);
+      res.status(401).send(err.message);
+    });
 
   if (!validPassword) {
-    res.status(401).send();
+    res.status(401).send(`Password is not valid. Please try again.`);
 
     return;
   }
