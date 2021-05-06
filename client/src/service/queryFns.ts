@@ -32,3 +32,26 @@ export const getFavorites = async () => {
     return res.data;
   }
 };
+
+export const deleteFavorite = async (id: string) => {
+  if (Token.hasAuthToken() && !Token.isExpired()) {
+    const token = Token.getAuthToken();
+
+    const fetchConfig = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      data: {
+        keybind: {
+          id,
+        },
+      },
+    };
+
+    const res = await axios.delete(
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/user/favorites`,
+      fetchConfig
+    );
+    return res.data;
+  }
+};
