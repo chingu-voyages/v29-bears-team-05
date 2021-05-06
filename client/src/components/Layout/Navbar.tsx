@@ -2,15 +2,22 @@
 import React from 'react';
 import SignIn from '../SignIn';
 import Token from '../../service/token';
+import { useRouter } from 'next/router';
 
 export default function Navbar() {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
   const [showModal, setShowModal] = React.useState(false);
+  const router = useRouter();
 
   let isLoggedIn = false;
   if (typeof window !== "undefined") {
     isLoggedIn = Token.hasAuthToken();
   }
+
+  const logout = () => {
+    Token.clearAuthToken();
+    window.setTimeout(() => router.push(`/`), 500);
+  };
 
   return (
     <>
@@ -69,7 +76,7 @@ export default function Navbar() {
                 <button
                   className="flex items-center px-2 py-2 text-xs text-base font-bold leading-snug text-white border-b-2 border-white border-opacity-0 hover:border-green-300 focus:outline-none transition duration-500 ease-in-out focus:outline-none"
                   type="button"
-                  onClick={() => setShowModal(true)}
+                  onClick={() => logout()}
                 >
                   Logout
                 </button>
