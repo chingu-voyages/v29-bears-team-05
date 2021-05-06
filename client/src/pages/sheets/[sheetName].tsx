@@ -9,8 +9,7 @@ import { FavsProvider, useFavs } from '../../context/FavContext';
 const FavoriteButton = ({ record }) => {
   const context = useFavs();
   const { favs, setFavs } = context;
-  const initialState = false;
-  // const initialState = favs.includes(record.id);
+  const initialState = favs.includes(record.id);
   const [active, setActive] = useState(initialState);
   const handleClick = (e) => {
     if (!active) {
