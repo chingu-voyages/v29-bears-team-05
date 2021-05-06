@@ -1,17 +1,31 @@
 import { useRouter } from 'next/router';
 import { useQuery, UseQueryResult, useQueryClient } from 'react-query';
-import { getSheet } from '../../service/queryFns';
+import { getSheet, deleteFavorite } from '../../service/queryFns';
 import KeybindList from '../../components/KeybindList';
 import TextField from '../../components/Textfield';
 import { useAuth } from '../../context/AuthContext';
 import { useEffect } from 'react';
 import { TrashIcon } from '../../ui/Icons';
 
-const DeleteButton = () => {
+const DeleteButton = ({ record }) => {
+  const handleDelete = () => {
+    deleteFavorite(record.id);
+    // then need to update view to reflect change
+  };
+
   return (
     <td className="p-2 text-sm sm:text-base">
       <div>
-        <button>
+        <button
+          aria-label="delete-button"
+          onClick={() => {
+            if (
+              window.confirm('Are you sure you want to delete this keybinding?')
+            ) {
+              handleDelete();
+            }
+          }}
+        >
           <TrashIcon />
         </button>
       </div>
@@ -32,7 +46,7 @@ const columns = [
   },
   {
     header: ' ',
-    component: <DeleteButton />,
+    component: <DeleteButton record />,
     colWidth: 'w-3',
   },
 ];
@@ -100,7 +114,6 @@ const Sheet = () => {
   } else {
     return null;
   }
-  // return null
 };
 
 export default Sheet;
