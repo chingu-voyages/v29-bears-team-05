@@ -18,7 +18,7 @@ const KeybindList = ({ sheetData, columns, titleField }: Props) => {
     <div>
       {categories.map((title, i) => {
         const tableData = _.filter(sheetData, {
-          cheatsheetCategory: { index: i },
+          [titleField]: { name: title },
         });
         return (
           <Table key={i} title={title} data={tableData} columns={columns} />
