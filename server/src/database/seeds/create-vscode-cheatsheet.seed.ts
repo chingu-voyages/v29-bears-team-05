@@ -1,12 +1,13 @@
+import { Connection } from 'typeorm';
+import { Factory, Seeder } from 'typeorm-seeding';
+import { uniqBy } from 'lodash';
 import { Cheatsheet } from '../../entity/Cheatsheet';
 import { CheatsheetCategory } from '../../entity/CheatsheetCategory';
 import { Keybind } from '../../entity/Keybind';
-import { Factory, Seeder } from 'typeorm-seeding';
-import { uniqBy } from 'lodash';
 import vsCodeData from '../../utils/vsCodeMaster.json';
 
 export class CreateVSCheatsheet implements Seeder {
-  public async run(factory: Factory): Promise<void> {
+  public async run(factory: Factory, connection: Connection): Promise<void> {
     const vsCodeCategories = uniqBy(vsCodeData, 'cheatsheetCategory').map(
       (rec: { cheatsheetCategory: string }) => rec.cheatsheetCategory
     );
@@ -23,20 +24,53 @@ export class CreateVSCheatsheet implements Seeder {
       await factory(CheatsheetCategory)({
         name,
         index,
-      }).create();
+      })
+        .map(async (cat: CheatsheetCategory) => {
+          const catKeybinds = [];
+          const categoryData = vsCodeData.filter(
+            (rec) => rec.cheatsheetCategory === cat.name
+          );
+
+          for (let index = 0; index < categoryData.length; index++) {
+            const kb = categoryData[index];
+
+            const keybind = await factory(Keybind)({
+              name: kb.name,
+              keyCombination: kb.keyCombination,
+              description: kb.description,
+              likes: kb.likes,
+              cheatsheet,
+              cheatsheetCategory: cat,
+            }).create();
+
+            cheatsheet.keybinds.push(keybind);
+            catKeybinds.push(keybind);
+          }
+
+          cat.keybinds = catKeybinds;
+
+          return cat;
+        })
+        .create();
     }
 
-    for (let index = 0; index < vsCodeData.length; index++) {
-      const kb = vsCodeData[index];
+    // for (let index = 0; index < vsCodeData.length; index++) {
+    //   const kb = vsCodeData[index];
 
-      await factory(Keybind)({
-        name: kb.name,
-        keyCombination: kb.keyCombination,
-        description: kb.description,
-        likes: kb.likes,
-        cheatsheet,
-        cheatsheetCategory: kb.cheatsheetCategory,
-      }).create();
-    }
+    //   const keybind = await factory(Keybind)({
+    //     name: kb.name,
+    //     keyCombination: kb.keyCombination,
+    //     description: kb.description,
+    //     likes: kb.likes,
+    //     cheatsheet,
+    //     cheatsheetCategory: kb.cheatsheetCategory,
+    //   }).create();
+
+    //   cheatsheet.keybinds.push(keybind);
+    // }
+
+    await connection.manager.save(cheatsheet);
+    // await connection.manager.save(categories);
+    // await connection.manager.save(keybinds);
   }
 }

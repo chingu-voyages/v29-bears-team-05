@@ -10,6 +10,7 @@ define(Cheatsheet, (
 
   cheatsheet.name = context?.name || faker.random.word();
   cheatsheet.logoUrl = context?.logoUrl || faker.image.imageUrl();
+  cheatsheet.keybinds = [];
 
   return cheatsheet;
 });
