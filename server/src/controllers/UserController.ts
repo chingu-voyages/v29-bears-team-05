@@ -26,9 +26,25 @@ const getFavorites = async (req: Request, res: Response) => {
   }
 };
 
-const addFavorite = async (reqr: Request, res: Response) => {
-  const userId = reqr.body.user.id;
-  const queryId = reqr.body.keybind.id;
+const addFavorite = async (req: Request, res: Response) => {
+  const userId = req.body.user.id;
+
+  if ('keybinds' in req.body === false) {
+    res.status(400).send('Error: keybinds property not in request');
+    return;
+  }
+
+  let query = [] as string[];
+  if (typeof req.body.keybinds === 'string' && req.body.keybinds.length > 0) {
+    query = [req.body.keybinds];
+  } else if (Array.isArray(req.body.keybinds)) {
+    query = req.body.keybinds;
+  } else {
+    res
+      .status(400)
+      .send('Error: keybinds not an Array<string> or a non-empty string');
+    return;
+  }
 
   const userRepository = getRepository(User);
   const keybindRepository = getRepository(Keybind);
@@ -41,21 +57,32 @@ const addFavorite = async (reqr: Request, res: Response) => {
     })
     .catch(() => res.status(404).send('User not found'))) as User;
 
-  // reject if keybind is already in list
+  // remove if keybind is already in list or is a non-empty string
   const keybinds_id = user.userFavorites.map((x) => x.id);
-  if (keybinds_id.includes(queryId)) {
-    res.status(402).send('Keybind already in favorites');
-    return;
+  const filtered = query.filter(
+    (x) => !keybinds_id.includes(x) && x.length > 0
+  );
+
+  // get valid keybinds from repository
+  const keybindsToAdd = [];
+  for (let i = 0; i < filtered.length; i++) {
+    const keybind = await keybindRepository
+      .findOneOrFail(filtered[i])
+      .catch(() => console.log('Keybind id not found in repository'));
+    if (keybind) {
+      keybindsToAdd.push(keybind);
+    }
   }
 
-  const keybind = (await keybindRepository
-    .findOneOrFail(queryId)
-    .catch(() => res.status(404).send('Keybind not found'))) as Keybind;
+  // update the user favorites
+  keybindsToAdd.forEach((keybind) => {
+    keybind.likes = keybind.likes + 1;
+    user.userFavorites.push(keybind);
+  });
 
-  keybind.likes = keybind.likes + 1;
-  user.userFavorites.push(keybind);
   await userRepository.save(user);
-  res.status(200).send(user);
+
+  res.status(200).send({ user });
 };
 
 const deleteFavorite = async (req: Request, res: Response) => {
