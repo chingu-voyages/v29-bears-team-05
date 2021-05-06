@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import { Cheatsheet } from '../entity/Cheatsheet';
-import { Keybind } from '../entity/Keybind';
 
 const getList = async (_req: Request, res: Response) => {
   const cheatsheetRepository = getRepository(Cheatsheet);
@@ -14,15 +13,17 @@ const getList = async (_req: Request, res: Response) => {
 
 const getOneById = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const keybindRepository = getRepository(Keybind);
+  const cheatsheetRepository = getRepository(Cheatsheet);
 
   try {
-    const keybinds = await keybindRepository.find({
-      relations: ['cheatsheet', 'cheatsheetCategory'],
-      where: { cheatsheet: { id: id } },
+    const cheatsheet = await cheatsheetRepository.findOneOrFail(id, {
+      relations: [
+        'keybinds',
+        'keybinds.cheatsheet',
+        'keybinds.cheatsheetCategory',
+      ],
     });
-
-    res.send(keybinds);
+    res.send(cheatsheet);
   } catch (error) {
     res.status(404).send(error);
   }
