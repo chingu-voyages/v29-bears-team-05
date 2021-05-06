@@ -1,4 +1,5 @@
 import * as Faker from 'faker';
+import { datatype } from 'faker';
 import { Keybind } from '../../entity/Keybind';
 import { define } from 'typeorm-seeding';
 
@@ -13,7 +14,7 @@ define(Keybind, (
   keybind.name = context?.name || faker.random.word();
   keybind.keyCombination = context?.keyCombination || `${modifier} + ${key}`;
   keybind.description = context?.description || faker.random.words();
-  keybind.likes = context?.likes || faker.datatype.number();
+  keybind.likes = context?.likes || datatype.number();
 
   return keybind;
 });
