@@ -6,7 +6,7 @@ export const getSheets = async () => {
   return res.data;
 };
 
-export const getSheet = async (id: number) => {
+export const getSheet = async (id: number | string) => {
   if (id) {
     const res = await axios(
       `${process.env.NEXT_PUBLIC_API_ENDPOINT}/sheet/${id}`

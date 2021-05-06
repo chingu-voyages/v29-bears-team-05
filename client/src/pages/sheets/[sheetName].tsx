@@ -50,8 +50,9 @@ const Sheet = () => {
     isLoading,
     data,
     error,
-  }: UseQueryResult<any[], { message: string }> = useQuery(['sheet', id], () =>
-    getSheet(id)
+  }: UseQueryResult<{ keybinds: any[] }, { message: string }> = useQuery(
+    ['sheet', id],
+    () => getSheet(id)
   );
 
   if (isLoading) return <div>Loading...</div>;
@@ -69,7 +70,7 @@ const Sheet = () => {
           </h1>
         </div>
         <KeybindList
-          sheetData={data}
+          sheetData={data.keybinds}
           columns={columns}
           titleField="cheatsheetCategory"
         />
