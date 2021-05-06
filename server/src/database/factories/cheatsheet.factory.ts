@@ -1,13 +1,15 @@
-import faker from 'faker';
+import * as Faker from 'faker';
 import { Cheatsheet } from '../../entity/Cheatsheet';
 import { define } from 'typeorm-seeding';
 
-define(Cheatsheet, () => {
+define(Cheatsheet, (
+  faker: typeof Faker,
+  context: Partial<Cheatsheet> | undefined
+) => {
   const cheatsheet = new Cheatsheet();
 
-  cheatsheet.id = faker.datatype.uuid();
-  cheatsheet.name = faker.random.word();
-  cheatsheet.logoUrl = faker.image.imageUrl();
+  cheatsheet.name = context?.name || faker.random.word();
+  cheatsheet.logoUrl = context?.logoUrl || faker.image.imageUrl();
 
   return cheatsheet;
 });
