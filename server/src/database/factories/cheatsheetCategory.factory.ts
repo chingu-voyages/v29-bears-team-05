@@ -10,7 +10,7 @@ define(CheatsheetCategory, (
   const category = new CheatsheetCategory();
 
   category.name = context?.name || faker.random.word();
-  category.index = context?.index || datatype.number();
+  category.index = context?.index ?? datatype.number();
 
   return category;
 });
