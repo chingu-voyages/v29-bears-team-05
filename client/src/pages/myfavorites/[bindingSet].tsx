@@ -31,7 +31,7 @@ const columns = [
     colWidth: 'w-7',
   },
   {
-    header: <TrashIcon />,
+    header: ' ',
     component: <DeleteButton />,
     colWidth: 'w-3',
   },
@@ -66,8 +66,9 @@ const Sheet = () => {
     isLoading,
     data,
     error,
-  }: UseQueryResult<any[], { message: string }> = useQuery(['sheet', id], () =>
-    getSheet(id)
+  }: UseQueryResult<{ keybinds: any[] }, { message: string }> = useQuery(
+    ['sheet', id],
+    () => getSheet(id)
   );
   if (isLoading) return <div>Loading...</div>;
 
@@ -76,6 +77,12 @@ const Sheet = () => {
   }
 
   if (data && isLoggedIn) {
+    const sheetData = () => {
+      const result = data?.keybinds?.filter((record) => {
+        return favoritesArray?.includes(record.id) ? record : null;
+      });
+      return result;
+    };
     return (
       <div className="mb-20">
         <div className="text-center">
@@ -84,9 +91,7 @@ const Sheet = () => {
           </h1>
         </div>
         <KeybindList
-          sheetData={data?.filter((record) =>
-            favoritesArray?.includes(record.id) ? record : null
-          )}
+          sheetData={sheetData()}
           columns={columns}
           titleField="cheatsheetCategory"
         />
@@ -95,6 +100,7 @@ const Sheet = () => {
   } else {
     return null;
   }
+  // return null
 };
 
 export default Sheet;
