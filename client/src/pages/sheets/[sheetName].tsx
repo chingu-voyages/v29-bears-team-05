@@ -10,14 +10,14 @@ import Link from 'next/link';
 const FavoriteButton = ({ record }) => {
   const context = useFavs();
   const { favs, setFavs } = context;
-  const initialState = favs.includes(record.id);
+  const initialState = favs?.includes(record.id);
   const [active, setActive] = useState(initialState);
 
   const handleClick = (e) => {
     if (!active) {
       setFavs((prev) => [...prev, record.id]);
     } else {
-      const arr = [...favs];
+      const arr = favs ? [...favs] : [];
       arr.splice(
         arr.findIndex((el) => el === record.id),
         1
@@ -90,10 +90,13 @@ const Sheet = () => {
     () => getSheet(id)
   );
 
-  const { favs, setFavs } = useFavs();
+  const { favs } = useFavs();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!favs) return;
+
     console.log('clicked submit');
     console.log('favs', favs);
     addFavorites(favs);
@@ -127,7 +130,8 @@ const Sheet = () => {
             <button
               type="submit"
               onClick={handleSubmit}
-              className="w-full max-w-md mt-11 bg-gray-700 text-white px-6 py-3 mb-1 mr-1 text-sm font-bold uppercase transition-all duration-150 ease-linear rounded shadow outline-none hover:shadow-lg focus:outline-none"
+              disabled={!favs || !favs.length}
+              className="w-full max-w-md px-6 py-3 mb-1 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear bg-gray-700 rounded shadow outline-none mt-11 hover:shadow-lg focus:outline-none"
             >
               Save
             </button>

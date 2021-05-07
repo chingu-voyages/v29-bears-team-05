@@ -11,7 +11,7 @@ import { useFavs } from '../context/FavContext';
 const SignIn = ({ setShowModal }) => {
   const router = useRouter();
   const context = useFavs();
-  const { favs, setFavs } = context;
+  const { setFavs } = context;
 
   const handleLogin = async (values) => {
     return await Auth.login(values)

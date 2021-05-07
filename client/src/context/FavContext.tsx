@@ -2,7 +2,16 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { getFavorites } from '../service/queryFns';
 
-const FavsContext = createContext([]);
+interface FavsContextInterface {
+  favs: any[] | null;
+  setFavs: any | null;
+}
+
+const initialContext = {
+  favs: null,
+  setFavs: null,
+};
+const FavsContext = createContext<FavsContextInterface>(initialContext);
 
 export const FavsProvider = ({ children }) => {
   const { data } = useQuery('favorites', getFavorites);
