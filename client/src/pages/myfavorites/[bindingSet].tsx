@@ -1,11 +1,12 @@
 import { useRouter } from 'next/router';
 import { useQuery, UseQueryResult, useQueryClient } from 'react-query';
-import { getSheet, deleteFavorite } from '../../service/queryFns';
+import { getSheet, deleteFavorite, getFavorites } from '../../service/queryFns';
 import KeybindList from '../../components/KeybindList';
 import TextField from '../../components/Textfield';
 import { useAuth } from '../../context/AuthContext';
 import { useEffect } from 'react';
 import { TrashIcon } from '../../ui/Icons';
+import { useFavs } from '../../context/FavContext';
 
 const DeleteButton = ({ record }) => {
   const handleDelete = () => {
@@ -65,7 +66,13 @@ const Sheet = () => {
 
   const queryClient = useQueryClient();
 
-  const favoritesData: any = queryClient.getQueryData('favorites');
+  const { data: favoritesData } = useQuery('favorites', getFavorites);
+
+  // const favoritesData: any = queryClient.getQueryData('favorites');
+
+  // const { favs, setFavs } = useFavs();
+  // console.log('favs', favs);
+  // const favoritesData = favs;
 
   const user = favoritesData?.user;
   const favorites = user?.userFavorites;
@@ -93,6 +100,7 @@ const Sheet = () => {
   if (data && isLoggedIn) {
     const sheetData = () => {
       const result = data?.keybinds?.filter((record) => {
+        // return favs?.includes(record.id) ? record : null;
         return favoritesArray?.includes(record.id) ? record : null;
       });
       return result;

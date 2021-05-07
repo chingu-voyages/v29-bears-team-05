@@ -1,18 +1,22 @@
 /* eslint-disable no-alert */
-import React from 'react';
+import React, { useContext } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import Auth from '../service/auth';
 import { useRouter } from 'next/router';
 import Token from '../service/token';
 import Users from '../service/user';
+import { useFavs } from '../context/FavContext';
 
 const SignIn = ({ setShowModal }) => {
   const router = useRouter();
+  const context = useFavs();
+  const { favs, setFavs } = context;
 
   const handleLogin = async (values) => {
     return await Auth.login(values)
       .then((res) => {
+        setFavs(res.user.userFavorites.map((el) => el.id));
         const token = res.token;
         Token.saveAuthToken(token);
         setShowModal(false);

@@ -1,10 +1,11 @@
 import { useRouter } from 'next/router';
 import { useQuery, UseQueryResult, useQueryClient } from 'react-query';
-import { getSheet } from '../../service/queryFns';
+import { addFavorites, getSheet } from '../../service/queryFns';
 import KeybindList from '../../components/KeybindList';
 import TextField from '../../components/Textfield';
 import { useState } from 'react';
 import { FavsProvider, useFavs } from '../../context/FavContext';
+import Link from 'next/link';
 
 const FavoriteButton = ({ record }) => {
   const context = useFavs();
@@ -28,13 +29,18 @@ const FavoriteButton = ({ record }) => {
 
   return (
     <td className="p-2 text-sm sm:text-base">
-      {/* <button onClick={handleClick}>{active ? '❤️' : '🤍'}</button> */}
-      <input
-        type="checkbox"
-        checked={active}
-        name={record.id}
-        onChange={handleClick}
-      />
+      <div>
+        <label className="cursor-pointer">
+          {active ? '❤️' : '🤍'}
+          <input
+            className="invisible"
+            type="checkbox"
+            checked={active}
+            name={record.id}
+            onChange={handleClick}
+          />
+        </label>
+      </div>
     </td>
   );
 };
@@ -84,6 +90,17 @@ const Sheet = () => {
     () => getSheet(id)
   );
 
+  const { favs, setFavs } = useFavs();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('clicked submit');
+    console.log('favs', favs);
+    addFavorites(favs);
+    // route to favs sheet ?
+    router.push(`/myfavorites/${sheetName}`);
+  };
+
   if (isLoading) return <div>Loading...</div>;
 
   if (isError) {
@@ -98,15 +115,25 @@ const Sheet = () => {
             {sheetName} keyboard shortcuts
           </h1>
         </div>
-        <FavsProvider>
-          <form>
-            <KeybindList
-              sheetData={data.keybinds}
-              columns={columns}
-              titleField="cheatsheetCategory"
-            />
-          </form>
-        </FavsProvider>
+        <Link href={`/myfavorites/${sheetName}`}>favorites for this sheet</Link>
+        {/* <FavsProvider> */}
+        <form>
+          <KeybindList
+            sheetData={data.keybinds}
+            columns={columns}
+            titleField="cheatsheetCategory"
+          />
+          <div className="flex justify-center">
+            <button
+              type="submit"
+              onClick={handleSubmit}
+              className="w-full max-w-md mt-11 bg-gray-700 text-white px-6 py-3 mb-1 mr-1 text-sm font-bold uppercase transition-all duration-150 ease-linear rounded shadow outline-none hover:shadow-lg focus:outline-none"
+            >
+              Save
+            </button>
+          </div>
+        </form>
+        {/* </FavsProvider> */}
       </div>
     );
   } else {

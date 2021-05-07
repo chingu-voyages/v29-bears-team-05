@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { Hydrate } from 'react-query/hydration';
 import { AuthProvider } from '../context/AuthContext';
+import { FavsProvider } from '../context/FavContext';
 
 export default function App({ Component, pageProps }: AppProps) {
   const queryClientRef = useRef<QueryClient>();
@@ -17,9 +18,11 @@ export default function App({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClientRef.current}>
       <Hydrate state={pageProps.dehydratedState}>
         <AuthProvider>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+          <FavsProvider>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </FavsProvider>
         </AuthProvider>
       </Hydrate>
       <ReactQueryDevtools initialIsOpen />

@@ -7,9 +7,13 @@ const FavsContext = createContext([]);
 export const FavsProvider = ({ children }) => {
   const { data } = useQuery('favorites', getFavorites);
 
-  const initialState = data?.user?.userFavorites?.map((el) => el.id) || [];
-  const [favs, setFavs] = useState(initialState);
+  // const initialState = data?.user?.userFavorites?.map((el) => el.id) || [];
+  const [favs, setFavs] = useState([]);
   console.log('favs', favs);
+
+  useEffect(() => {
+    setFavs(data?.user?.userFavorites?.map((el) => el.id) || []);
+  }, [data]);
 
   return (
     <FavsContext.Provider value={{ favs, setFavs }}>

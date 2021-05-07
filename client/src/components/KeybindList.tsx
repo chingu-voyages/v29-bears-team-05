@@ -16,15 +16,15 @@ const KeybindList = ({ sheetData, columns, titleField }: Props) => {
     [sheetData, titleField]
   );
 
-  const { favs, setFavs } = useFavs();
+  // const { favs, setFavs } = useFavs();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('clicked submit');
-    console.log('favs', favs);
-    // fetch post array of favs
-    addFavorites(favs);
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   console.log('clicked submit');
+  //   console.log('favs', favs);
+  //   addFavorites(favs);
+  //   // route to favs sheet ?
+  // };
 
   return (
     <div>
@@ -36,7 +36,7 @@ const KeybindList = ({ sheetData, columns, titleField }: Props) => {
           <Table key={i} title={title} data={tableData} columns={columns} />
         );
       })}
-      <div className="flex justify-center">
+      {/* <div className="flex justify-center">
         <button
           type="submit"
           onClick={handleSubmit}
@@ -44,7 +44,7 @@ const KeybindList = ({ sheetData, columns, titleField }: Props) => {
         >
           Save
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };
