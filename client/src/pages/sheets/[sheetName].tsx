@@ -11,6 +11,7 @@ const FavoriteButton = ({ record }) => {
   const { favs, setFavs } = context;
   const initialState = favs.includes(record.id);
   const [active, setActive] = useState(initialState);
+
   const handleClick = (e) => {
     if (!active) {
       setFavs((prev) => [...prev, record.id]);
@@ -83,12 +84,6 @@ const Sheet = () => {
     () => getSheet(id)
   );
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('clicked submit');
-    // fetch post array of favs
-  };
-
   if (isLoading) return <div>Loading...</div>;
 
   if (isError) {
@@ -110,15 +105,6 @@ const Sheet = () => {
               columns={columns}
               titleField="cheatsheetCategory"
             />
-            <div className="flex justify-center">
-              <button
-                type="submit"
-                onClick={handleSubmit}
-                className="w-full max-w-md mt-11 bg-gray-700 text-white px-6 py-3 mb-1 mr-1 text-sm font-bold uppercase transition-all duration-150 ease-linear rounded shadow outline-none hover:shadow-lg focus:outline-none"
-              >
-                Save
-              </button>
-            </div>
           </form>
         </FavsProvider>
       </div>

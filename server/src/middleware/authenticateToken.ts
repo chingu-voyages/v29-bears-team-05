@@ -8,8 +8,10 @@ const authenticateToken = async (
   next: NextFunction
 ): Promise<any> => {
   const authHeader = req.headers['authorization'];
+  console.log('authHeader', authHeader)
 
   const token = authHeader && authHeader.split(' ')[1];
+  console.log('token', token)
 
   if (token == null) return res.sendStatus(401);
 

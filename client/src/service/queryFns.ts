@@ -33,6 +33,27 @@ export const getFavorites = async () => {
   }
 };
 
+export const addFavorites = async (favorites: string[]) => {
+  if (Token.hasAuthToken() && !Token.isExpired()) {
+    const token = Token.getAuthToken();
+
+    const fetchConfig = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const res = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/user/favorites`,
+      {
+        keybinds: favorites,
+      },
+      fetchConfig
+    );
+    return res.data;
+  }
+};
+
 export const deleteFavorite = async (id: string) => {
   if (Token.hasAuthToken() && !Token.isExpired()) {
     const token = Token.getAuthToken();
