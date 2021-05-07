@@ -1,5 +1,5 @@
 /* eslint-disable no-alert */
-import React, { useContext } from 'react';
+import React from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import Auth from '../service/auth';
@@ -10,8 +10,7 @@ import { useFavs } from '../context/FavContext';
 
 const SignIn = ({ setShowModal }) => {
   const router = useRouter();
-  const context = useFavs();
-  const { setFavs } = context;
+  const { setFavs } = useFavs();
 
   const handleLogin = async (values) => {
     return await Auth.login(values)
@@ -20,7 +19,7 @@ const SignIn = ({ setShowModal }) => {
         const token = res.token;
         Token.saveAuthToken(token);
         setShowModal(false);
-        router.push(`/sheets`);
+        router.push(`/myfavorites`);
       })
       .catch((err) => {
         console.log('err.message', err.message);
