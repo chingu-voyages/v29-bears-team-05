@@ -1,5 +1,10 @@
 import { useRouter } from 'next/router';
-import { useQuery, UseQueryResult, useQueryClient } from 'react-query';
+import {
+  useQuery,
+  UseQueryResult,
+  useQueryClient,
+  useMutation,
+} from 'react-query';
 import { getSheet, deleteFavorite, getFavorites } from '../../service/queryFns';
 import KeybindList from '../../components/KeybindList';
 import TextField from '../../components/Textfield';
@@ -9,9 +14,25 @@ import { TrashIcon } from '../../ui/Icons';
 import { useFavs } from '../../context/FavContext';
 
 const DeleteButton = ({ record }) => {
+  const queryClient = useQueryClient();
+  const { setFavs } = useFavs();
+  const mutation = useMutation(() => deleteFavorite(record.id), {
+    onSuccess: (data) => {
+      queryClient.setQueryData('favorites', (oldData) => {
+        const keybindings = [...oldData.user.userFavorites];
+        keybindings.splice(
+          keybindings.findIndex((el) => el.id === record.id),
+          1
+        );
+        oldData.user.userFavorites = keybindings;
+        setFavs(oldData.user.userFavorites.map((el) => el.id));
+        return oldData;
+      });
+    },
+  });
+
   const handleDelete = () => {
-    deleteFavorite(record.id);
-    // then need to update view to reflect change
+    mutation.mutate(record.id);
   };
 
   return (
