@@ -1,4 +1,5 @@
 /* eslint-disable no-alert */
+import Link from 'next/link';
 import React from 'react';
 import SignIn from '../SignIn';
 
@@ -38,20 +39,26 @@ export default function Navbar() {
               </svg>
             </button>
           </div>
+          {/* below block just for testing nextjs Linked routes */}
+          <div className="w-56 flex justify-around">
+            <Link href={`/sheets`}>Nextjs Link: sheets </Link>
+            {'  '}
+            <br />
+            <Link href={`/myfavorites`}>Nextjs Link: myfavorites</Link>
+          </div>
           <div
             className={
               'lg:flex flex-grow items-center' +
               (navbarOpen ? 'flex' : ' hidden')
             }
             id="example-navbar-danger"
-
           >
             <ul className="flex flex-col list-none lg:flex-row lg:ml-auto">
               <li className="nav-item mr-3">
                 <a href="/sheets" className="hover:no-underline">
                   <button
-                  className="flex items-center px-3 py-2 text-xs text-base font-bold leading-snug text-white border-b-2 border-white border-opacity-0 hover:border-green-300 focus:outline-none transition duration-500 ease-in-out"
-                  type="button"
+                    className="flex items-center px-3 py-2 text-xs text-base font-bold leading-snug text-white border-b-2 border-white border-opacity-0 hover:border-green-300 focus:outline-none transition duration-500 ease-in-out"
+                    type="button"
                   >
                     Sheets
                   </button>
@@ -66,7 +73,6 @@ export default function Navbar() {
                   LOGIN / Sign up
                 </button>
               </li>
-
             </ul>
           </div>
         </div>

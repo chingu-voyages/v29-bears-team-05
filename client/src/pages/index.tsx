@@ -6,10 +6,10 @@ import Link from 'next/link';
 export default function Home() {
   return (
     <>
-      {/* below two lines just for testing routes */}
-      <Link href={`/sheets`}>sheets</Link>
+      {/* below few lines just for testing nextjs Linked routes */}
+      <Link href={`/sheets`}>Nextjs Link: sheets</Link>
       <br />
-      <Link href={`/myfavorites`}>myfavorites</Link>
+      <Link href={`/myfavorites`}>Nextjs Link: myfavorites</Link>
       <Hero />
       <Explainer />
       <SheetSelector />
