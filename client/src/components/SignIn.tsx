@@ -14,7 +14,9 @@ const SignIn = ({ setShowModal }) => {
     return await Auth.login(values)
       .then((res) => {
         const token = res.token;
+        const username = res.user.username;
         Token.saveAuthToken(token);
+        Auth.saveUsername(username);
         setShowModal(false);
         router.push(`/sheets`);
       })

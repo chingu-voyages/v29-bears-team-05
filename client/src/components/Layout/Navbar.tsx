@@ -3,6 +3,7 @@ import React from 'react';
 import Link from 'next/link';
 import SignIn from '../SignIn';
 import Token from '../../service/token';
+import Auth from '../../service/auth';
 import { useRouter } from 'next/router';
 
 export default function Navbar() {
@@ -19,6 +20,8 @@ export default function Navbar() {
     Token.clearAuthToken();
     window.setTimeout(() => router.push(`/`), 500);
   };
+
+  const username = Auth.getUsername();
 
   return (
     <>
@@ -102,7 +105,7 @@ export default function Navbar() {
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
-                  <p className="ml-1">Username</p>
+                  <p className="ml-1">{username}</p>
                 </li>
                </>
               :
