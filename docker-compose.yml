@@ -1,0 +1,24 @@
+pg:
+  image: "postgres:13"
+  container_name: "keybound-postgres"
+  restart: always
+  ports:
+    - "5432:5432"
+  volumes:
+    - ./pg/db_data:/var/lib/postgresql/data
+    - ./server/init.sql:/docker-entrypoint-initdb.d/init.sql
+  environment:
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: admin
+        POSTGRES_DB: keybound_api
+  ports:
+    - "5432:5432"
+pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+        PGADMIN_DEFAULT_EMAIL: admin@admin.com
+        PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+        - "5050:80"
