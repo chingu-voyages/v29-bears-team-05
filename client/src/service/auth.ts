@@ -17,10 +17,12 @@ const Auth = {
     });
   },
   saveUsername(username) {
-    window.localStorage.setItem('username', username);
+    localStorage.setItem('username', username);
   },
   getUsername() {
-    return window.localStorage.getItem('username');
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('username');
+    }
   },
 };
 
