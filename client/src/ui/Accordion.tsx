@@ -1,4 +1,5 @@
 import { HTMLAttributes, ReactNode, useEffect, useRef, useState } from 'react';
+import { useFavs } from '../context/FavContext';
 
 interface AccordionProps {
   children: ReactNode;
@@ -47,10 +48,15 @@ export const Accordion = ({ children, isOpen }: AccordionProps) => {
   const childRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState<number | undefined>(undefined);
 
+  const { favs } = useFavs();
   useEffect(() => {
-    const childHeight = childRef?.current?.scrollHeight;
+    // const childHeight = childRef?.current?.scrollHeight
+    const childHeight = childRef?.current?.children[0].clientHeight;
+    console.log('childRef', childRef);
+    console.log('childHeight', childHeight);
+    // childHeight should be height of table
     setHeight(childHeight);
-  }, []);
+  }, [height, favs?.length, childRef?.current?.children[0].clientHeight]);
 
   const inlineStyle = isOpen ? { height } : { height: 0 };
 
