@@ -1,11 +1,6 @@
 {
     "name": "production",
     "type": "postgres",
-    "extra": {
-        "ssl": {
-            "rejectUnauthorized": false
-        }
-    },
     "entities": [
         "dist/entity/*.*"
     ],
