@@ -26,14 +26,6 @@
         "db:setup": "npm run schema:drop && npm run migrate:run && npm run seed:run"
     },
     "devDependencies": {
-        "@types/cors": "^2.8.10",
-        "@types/express": "^4.17.11",
-        "@types/jest": "^26.0.23",
-        "@types/jsonwebtoken": "^8.5.1",
-        "@types/lodash": "^4.14.168",
-        "@types/node": "^8.10.66",
-        "@types/supertest": "^2.0.11",
-        "@types/uuid": "^8.3.0",
         "@typescript-eslint/eslint-plugin": "^4.22.1",
         "@typescript-eslint/parser": "^4.22.1",
         "eslint": "^7.25.0",
@@ -47,6 +39,14 @@
         "ts-jest": "^26.5.5"
     },
     "dependencies": {
+        "@types/cors": "^2.8.10",
+        "@types/express": "^4.17.11",
+        "@types/jest": "^26.0.23",
+        "@types/jsonwebtoken": "^8.5.1",
+        "@types/lodash": "^4.14.168",
+        "@types/node": "^8.10.66",
+        "@types/supertest": "^2.0.11",
+        "@types/uuid": "^8.3.0",
         "@types/faker": "^5.5.3",
         "argon2": "^0.27.2",
         "class-validator": "^0.13.1",
