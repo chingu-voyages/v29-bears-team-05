@@ -17,7 +17,9 @@ const SignIn = ({ setShowModal }) => {
       .then((res) => {
         setFavs(res.user.userFavorites.map((el) => el.id));
         const token = res.token;
+        const username = res.user.username;
         Token.saveAuthToken(token);
+        Auth.saveUsername(username);
         setShowModal(false);
         router.push(`/myfavorites`);
       })
@@ -51,7 +53,7 @@ const SignIn = ({ setShowModal }) => {
 
   return (
     <>
-      <div className="fixed inset-0 z-50 flex justify-center overflow-x-hidden overflow-y-auto outline-none xl:items-center focus:outline-none">
+      <div className="fixed inset-0 z-50 flex justify-center overflow-x-hidden overflow-y-auto outline-none xl:items-center focus:outline-none bg-black bg-opacity-70">
         <div className="relative w-auto max-w-3xl mx-auto my-6">
           {/* Content */}
           <div className="relative flex flex-col w-full bg-white border-0 rounded-lg shadow-lg outline-none focus:outline-none">

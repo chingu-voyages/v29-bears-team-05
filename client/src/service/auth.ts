@@ -14,6 +14,14 @@ const Auth = {
       }
     });
   },
+  saveUsername(username) {
+    localStorage.setItem('username', username);
+  },
+  getUsername() {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('username');
+    }
+  },
 };
 
 export default Auth;

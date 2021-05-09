@@ -47,16 +47,12 @@ export const AngleDownIcon = (props) => (
 export const Accordion = ({ children, isOpen }: AccordionProps) => {
   const childRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState<number | undefined>(undefined);
+  const childHeight = childRef?.current?.children[0].clientHeight;
 
   const { favs } = useFavs();
   useEffect(() => {
-    // const childHeight = childRef?.current?.scrollHeight
-    const childHeight = childRef?.current?.children[0].clientHeight;
-    console.log('childRef', childRef);
-    console.log('childHeight', childHeight);
-    // childHeight should be height of table
     setHeight(childHeight);
-  }, [height, favs?.length, childRef?.current?.children[0].clientHeight]);
+  }, [height, favs.length, childRef, childHeight]);
 
   const inlineStyle = isOpen ? { height } : { height: 0 };
 
