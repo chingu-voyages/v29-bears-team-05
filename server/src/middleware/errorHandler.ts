@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-const errorHandler = (_req: Request, res: Response) => {
+const errorHandler = (_req: Request, res: Response): void => {
   const error = new Error('Not found');
 
   res.status(404).json({

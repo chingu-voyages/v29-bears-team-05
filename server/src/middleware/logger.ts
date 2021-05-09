@@ -4,7 +4,7 @@ type logType = 'INFO' | 'WARN' | 'ERROR' | 'DEBUG';
 interface loggerProps {
   type?: logType;
   msg: string;
-  details?: {};
+  details?: Record<string, unknown>;
   namespace?: string;
 }
 
@@ -37,7 +37,11 @@ const logger = ({
   }
 };
 
-const requestLogger = (req: Request, res: Response, next: NextFunction) => {
+const requestLogger = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void => {
   logger({
     msg: `METHOD: [${req.method}] - URL: [${req.url}] - IP: [${req.socket.remoteAddress}]`,
   });
