@@ -18,7 +18,7 @@ const DeleteButton = ({ record }) => {
   const { setFavs } = useFavs();
   const mutation = useMutation(() => deleteFavorite(record.id), {
     onSuccess: (data) => {
-      queryClient.setQueryData('favorites', (oldData) => {
+      queryClient.setQueryData('favorites', (oldData: any) => {
         const keybindings = [...oldData.user.userFavorites];
         keybindings.splice(
           keybindings.findIndex((el) => el.id === record.id),
@@ -43,6 +43,7 @@ const DeleteButton = ({ record }) => {
           onClick={() => {
             //   TODO: Add modal pop-up
             if (
+              typeof window !== 'undefined' &&
               window.confirm('Are you sure you want to delete this keybinding?')
             ) {
               handleDelete();
@@ -104,7 +105,7 @@ const Sheet = () => {
   const router = useRouter();
   const { bindingSet: sheetName } = router.query;
 
-  const isLoggedIn = useAuth();
+  const { authenticated: isLoggedIn } = useAuth();
 
   useEffect(() => {
     if (isLoggedIn === false) {

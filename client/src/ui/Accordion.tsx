@@ -50,9 +50,10 @@ export const Accordion = ({ children, isOpen }: AccordionProps) => {
   const childHeight = childRef?.current?.children[0].clientHeight;
 
   const { favs } = useFavs();
+
   useEffect(() => {
     setHeight(childHeight);
-  }, [height, favs.length, childRef, childHeight]);
+  }, [favs, childHeight]);
 
   const inlineStyle = isOpen ? { height } : { height: 0 };
 

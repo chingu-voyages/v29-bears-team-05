@@ -8,7 +8,7 @@ import { useAuth } from '../../context/AuthContext';
 
 export default function MyFavorites() {
   const router = useRouter();
-  const isLoggedIn = useAuth();
+  const { authenticated: isLoggedIn } = useAuth();
 
   useEffect(() => {
     if (isLoggedIn === false) {
