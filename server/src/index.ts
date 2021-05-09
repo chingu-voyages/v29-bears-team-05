@@ -1,4 +1,3 @@
-import { CreateVSCheatsheet } from './database/seeds/create-vscode-cheatsheet.seed';
 import 'reflect-metadata';
 import express from 'express';
 import cors from 'cors';
@@ -8,7 +7,6 @@ import { logger, requestLogger } from './middleware/logger';
 import setAccessHeaders from './middleware/setAccessHeaders';
 import errorHandler from './middleware/errorHandler';
 import { createTypeormConn } from './utils/createTypeormConn';
-import { runSeeder } from 'typeorm-seeding';
 
 const main = async () => {
   const isDev =
@@ -48,10 +46,6 @@ const main = async () => {
     });
   } else {
     logger({ msg: 'PORT is not defined!', type: 'ERROR' });
-  }
-
-  if (!isDev) {
-    runSeeder(CreateVSCheatsheet);
   }
 };
 
