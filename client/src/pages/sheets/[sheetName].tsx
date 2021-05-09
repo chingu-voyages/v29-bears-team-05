@@ -92,14 +92,14 @@ const Sheet = () => {
 
   const { favs } = useFavs();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!favs) return;
 
     console.log('clicked submit');
     console.log('favs', favs);
-    addFavorites(favs);
+    await addFavorites(favs);
     // route to favs sheet ?
     router.push(`/myfavorites/${sheetName}`);
   };
