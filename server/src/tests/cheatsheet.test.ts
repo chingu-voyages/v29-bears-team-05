@@ -23,7 +23,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  let conn = getConnection();
+  const conn = getConnection();
   return conn.close();
 });
 
@@ -32,9 +32,9 @@ test('store vscode and fetch it', async () => {
     name: 'vscode',
     logoUrl: 'assets/images/vscodo-logo.png',
   });
-  let vscode = await getRepository(Cheatsheet).find({
+  const vscode = await getRepository(Cheatsheet).find({
     where: {
-      id: 1,
+      name: 'vscode',
     },
   });
   expect(vscode[0].name).toBe('vscode');
@@ -79,12 +79,16 @@ test('GET /sheet/:id', async () => {
   await getConnection().manager.save(category);
   await getConnection().manager.save(cheatsheet);
 
+  const query = await getRepository(Cheatsheet).findOne({
+    where: { name: 'vscode' },
+  });
+
+  const url = '/sheet/' + query?.id;
   await supertest(app)
-    .get('/sheet/1')
+    .get(url)
     .expect(200)
     .then((response) => {
-      expect(Array.isArray(response.body)).toBeTruthy();
-      expect(response.body.length).toEqual(1);
-      expect(response.body[0].name).toEqual('Alt + P');
+      expect(response.body.keybinds.length).toEqual(1);
+      expect(response.body.keybinds[0].name).toEqual('Alt + P');
     });
 });
