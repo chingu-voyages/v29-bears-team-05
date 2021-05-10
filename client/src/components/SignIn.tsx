@@ -7,10 +7,12 @@ import { useRouter } from 'next/router';
 import Token from '../service/token';
 import Users from '../service/user';
 import { useFavs } from '../context/FavContext';
+import { useAuth } from '../context/AuthContext';
 
 const SignIn = ({ setShowModal }) => {
   const router = useRouter();
   const { setFavs } = useFavs();
+  const { setAuthenticated } = useAuth();
 
   const handleLogin = async (values) => {
     return await Auth.login(values)
@@ -20,6 +22,7 @@ const SignIn = ({ setShowModal }) => {
         const username = res.user.username;
         Token.saveAuthToken(token);
         Auth.saveUsername(username);
+        setAuthenticated(true);
         setShowModal(false);
         router.push(`/myfavorites`);
       })
