@@ -1,8 +1,7 @@
 import { HTMLAttributes, ReactNode, useEffect, useRef, useState } from 'react';
-import { useFavs } from '../context/FavContext';
 
 interface AccordionProps {
-  children: ReactNode;
+  children: any;
   isOpen: boolean;
 }
 
@@ -46,14 +45,14 @@ export const AngleDownIcon = (props) => (
 
 export const Accordion = ({ children, isOpen }: AccordionProps) => {
   const childRef = useRef<HTMLDivElement>(null);
-  const [height, setHeight] = useState<number | undefined>(undefined);
-  const childHeight = childRef?.current?.children[0].clientHeight;
+  const initHeight = childRef?.current?.children[0].clientHeight;
+  const [height, setHeight] = useState(initHeight);
 
-  const { favs } = useFavs();
+  const RowLength = children?.props.children[2].props.data.length;
 
   useEffect(() => {
-    setHeight(childHeight);
-  }, [favs, childHeight]);
+    setHeight(childRef?.current?.children[0].clientHeight);
+  }, [RowLength]);
 
   const inlineStyle = isOpen ? { height } : { height: 0 };
 
