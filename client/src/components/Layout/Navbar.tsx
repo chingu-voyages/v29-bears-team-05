@@ -54,13 +54,14 @@ export default function Navbar() {
               </svg>
             </button>
           </div>
-          {/* below block just for testing nextjs Linked routes */}
+          {/* below block just for testing nextjs Linked routes 
           <div className="flex justify-around w-56">
             <Link href={`/sheets`}>Nextjs Link: sheets </Link>
             {'  '}
             <br />
             <Link href={`/myfavorites`}>Nextjs Link: myfavorites</Link>
           </div>
+          */}
           <div
             className={
               'lg:flex flex-grow items-center' +
@@ -70,7 +71,7 @@ export default function Navbar() {
           >
             <ul className="flex flex-col list-none lg:flex-row lg:ml-auto">
               <li className="mr-3 nav-item">
-                <Link href="/sheets">
+                <Link href={`/sheets`}>
                   <a className="hover:no-underline">
                     <button
                       className="flex items-center px-3 py-2 text-xs text-base font-bold leading-snug text-white transition duration-500 ease-in-out border-b-2 border-white border-opacity-0 hover:border-green-300 focus:outline-none"
@@ -84,7 +85,7 @@ export default function Navbar() {
               {isLoggedIn ? (
                 <>
                   <li className="mr-3 nav-item">
-                    <Link href="/">
+                    <Link href={`/myfavorites`}>
                       <a className="hover:no-underline">
                         <button
                           className="flex items-center px-3 py-2 text-xs text-base font-bold leading-snug text-white transition duration-500 ease-in-out border-b-2 border-white border-opacity-0 hover:border-green-300 focus:outline-none"

@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function SheetSelector() {
     return (
@@ -8,12 +9,10 @@ export default function SheetSelector() {
         </div>
         <div className="grid grid-col-1 md:grid-flow-col md:auto-cols-auto md:pt-28 pb-40 bg-gray-700 flex justify-center">
             <div className="group text-center">
-                <a href="/sheets/vscode"><Image src="/images/vscode.png" alt="vscode" width="96" height="96" className="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"/></a>
+                <Link href="/sheets/VS%20Code">
+                <a><Image src="/images/VS code.png" alt="vscode" width="96" height="96" className="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"/></a>
+                </Link>
                 <p className="transition duration-500 ease-in-out text-white font-bold text-opacity-0 group-hover:text-green-300">VS Code</p>
-            </div>
-            <div className="group text-center">
-                <a href="/sheets/photoshop"><Image src="/images/photoshop.png" alt="vscode" width="96" height="96" className="transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"/></a>
-                <p className="transition duration-500 ease-in-out text-white font-bold text-opacity-0 group-hover:text-green-300">Adobe Photoshop</p>
             </div>
         </div>
         </>

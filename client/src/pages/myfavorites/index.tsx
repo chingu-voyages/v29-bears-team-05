@@ -32,7 +32,12 @@ export default function MyFavorites() {
     return <span>Error: {error?.message}</span>;
   }
 
-  return isLoggedIn ? <Cardlist data={data} title="myfavorites" /> : null;
+  return (
+    <div className="my-10 text-gray-700">
+      <h1 className="text-4xl font-bold text-center">My Favorites</h1>
+      {isLoggedIn ? <Cardlist data={data} title="myfavorites" /> : null}
+    </div>
+  );
 }
 
 export async function getServerSideProps() {
