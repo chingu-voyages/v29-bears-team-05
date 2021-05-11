@@ -6,6 +6,7 @@ import TextField from '../../components/Textfield';
 import { useState } from 'react';
 import { FavsProvider, useFavs } from '../../context/FavContext';
 import Link from 'next/link';
+import Token from '../../service/token';
 
 const FavoriteButton = ({ record }) => {
   const context = useFavs();
@@ -80,6 +81,11 @@ const Sheet = () => {
   const sheetRecord = sheetsData?.find((sheet) => sheet.name === sheetName);
   const id = sheetRecord?.id;
 
+  let isLoggedIn = false;
+  if (typeof window !== 'undefined') {
+    isLoggedIn = Token.hasAuthToken();
+  }
+
   const {
     isError,
     isLoading,
@@ -113,13 +119,15 @@ const Sheet = () => {
   if (data) {
     return (
       <div className="mb-20">
-        <div className="flex justify-items-center grid grid-cols-1 my-10 content-center">
+        <div className="flex justify-items-center grid grid-cols-1 my-10 content-center text-center">
+          <img className="justify-self-center mb-2" src={`/images/${sheetName}.png`} alt={`${sheetName} logo`} />
           <h1 className="mb-7 text-gray-700 font-bold text-3xl lg:text-4xl">
-            {sheetName} keyboard shortcuts
+            {sheetName} Shortcuts
           </h1>
+          { isLoggedIn ?
           <Link href={`/myfavorites/${sheetName}`}>
           <a className="text-gray-700 hover:no-underline">
-          <button className="flex justify-center border border-gray-700 bg-gray-700 py-2 px-4 rounded-full text-white font-bold hover:text-gray-700 hover:bg-white focus:outline-none">
+          <button className="flex justify-center border border-gray-700 bg-gray-700 py-2 px-4 rounded-full text-white font-bold hover:text-gray-700 hover:bg-white hover:shadow-lg focus:outline-none">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-300 mr-2" viewBox="0 0 20 20" fill="currentColor">
             <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
           </svg>
@@ -127,6 +135,9 @@ const Sheet = () => {
           </button>
           </a>
           </Link>
+
+          : <div></div>
+          }
         </div>
         {/* <FavsProvider> */}
         <form>
