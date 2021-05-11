@@ -27,7 +27,7 @@ const getFavorites = async (req: Request, res: Response) => {
 };
 
 const addFavorite = async (req: Request, res: Response) => {
-  const userId = req.body.user.id;
+  const userId = req.body.user.userId;
 
   if ('keybinds' in req.body === false) {
     res.status(400).send('Error: keybinds property not in request');
