@@ -6,6 +6,7 @@ import TextField from '../../components/Textfield';
 import { useState } from 'react';
 import { FavsProvider, useFavs } from '../../context/FavContext';
 import Link from 'next/link';
+import { HeartIcon } from '../../ui/Icons';
 
 const FavoriteButton = ({ record }) => {
   const context = useFavs();
@@ -30,8 +31,8 @@ const FavoriteButton = ({ record }) => {
   return (
     <td className="p-2 text-sm sm:text-base">
       <div>
-        <label className="cursor-pointer">
-          {active ? '❤️' : '🤍'}
+        <label className="flex cursor-pointer">
+          <HeartIcon color={active ? '#c71423' : 'white'} />
           <input
             className="invisible"
             type="checkbox"
