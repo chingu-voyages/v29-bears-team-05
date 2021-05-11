@@ -1,8 +1,8 @@
 import path from 'path';
-import { createConnection, getConnection } from 'typeorm';
+import { Connection, createConnection, getConnection } from 'typeorm';
 
 const mockConnection = {
-  async create() {
+  async create(): Promise<Connection> {
     const entities = path.join(__dirname, './../entity/network/*.js');
     const migrations = path.join(__dirname, './../migration/network/*.js');
     const subscribers = path.join(__dirname, './../subscriber/network/*.js');
@@ -28,15 +28,15 @@ const mockConnection = {
     });
   },
 
-  get() {
+  get(): Connection {
     return getConnection('test');
   },
 
-  async close() {
+  async close(): Promise<void> {
     await getConnection('test').close();
   },
 
-  async clear() {
+  async clear(): Promise<void> {
     const connection = getConnection('test');
     const entities = connection.entityMetadatas;
 
