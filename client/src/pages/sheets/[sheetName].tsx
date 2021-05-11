@@ -146,6 +146,7 @@ const Sheet = () => {
             columns={columns}
             titleField="cheatsheetCategory"
           />
+          { isLoggedIn ?
           <div className="flex justify-center">
             <button
               type="submit"
@@ -156,6 +157,8 @@ const Sheet = () => {
               Save
             </button>
           </div>
+          : <div></div>
+          }
         </form>
         {/* </FavsProvider> */}
       </div>
