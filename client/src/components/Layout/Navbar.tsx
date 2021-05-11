@@ -5,11 +5,13 @@ import SignIn from '../SignIn';
 import Token from '../../service/token';
 import Auth from '../../service/auth';
 import { useRouter } from 'next/router';
+import { useAuth } from '../../context/AuthContext';
 
 export default function Navbar() {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
   const [showModal, setShowModal] = React.useState(false);
   const router = useRouter();
+  const { setAuthenticated } = useAuth();
 
   let isLoggedIn = false;
   if (typeof window !== 'undefined') {
@@ -18,6 +20,7 @@ export default function Navbar() {
 
   const logout = () => {
     Token.clearAuthToken();
+    setAuthenticated(false);
     window.setTimeout(() => router.push(`/`), 500);
   };
 

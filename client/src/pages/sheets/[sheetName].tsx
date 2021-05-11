@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { FavsProvider, useFavs } from '../../context/FavContext';
 import Link from 'next/link';
 import { HeartIcon } from '../../ui/Icons';
+import { useAuth } from '../../context/AuthContext';
 
 const FavoriteButton = ({ record }) => {
   const context = useFavs();
@@ -91,17 +92,14 @@ const Sheet = () => {
     () => getSheet(id)
   );
 
+  const { authenticated: isLoggedIn } = useAuth();
+
   const { favs } = useFavs();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!favs) return;
-
-    console.log('clicked submit');
-    console.log('favs', favs);
     await addFavorites(favs);
-    // route to favs sheet ?
     router.push(`/myfavorites/${sheetName}`);
   };
 
@@ -110,6 +108,9 @@ const Sheet = () => {
   if (isError) {
     return <span>Error: {error?.message}</span>;
   }
+
+  const adjustedColumns = isLoggedIn ? columns : columns.slice(0, 3);
+  adjustedColumns[2].colWidth = 'w-4';
 
   if (data) {
     return (
@@ -120,11 +121,10 @@ const Sheet = () => {
           </h1>
         </div>
         <Link href={`/myfavorites/${sheetName}`}>favorites for this sheet</Link>
-        {/* <FavsProvider> */}
         <form>
           <KeybindList
             sheetData={data.keybinds}
-            columns={columns}
+            columns={adjustedColumns}
             titleField="cheatsheetCategory"
           />
           <div className="flex justify-center">
@@ -138,7 +138,6 @@ const Sheet = () => {
             </button>
           </div>
         </form>
-        {/* </FavsProvider> */}
       </div>
     );
   } else {
