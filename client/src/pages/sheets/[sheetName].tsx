@@ -113,12 +113,21 @@ const Sheet = () => {
   if (data) {
     return (
       <div className="mb-20">
-        <div className="text-center">
-          <h1 className="my-12 text-3xl lg:text-4xl">
+        <div className="flex justify-items-center grid grid-cols-1 my-10 content-center">
+          <h1 className="mb-7 text-gray-700 font-bold text-3xl lg:text-4xl">
             {sheetName} keyboard shortcuts
           </h1>
+          <Link href={`/myfavorites/${sheetName}`}>
+          <a className="text-gray-700 hover:no-underline">
+          <button className="flex justify-center border border-gray-700 bg-gray-700 py-2 px-4 rounded-full text-white font-bold hover:text-gray-700 hover:bg-white focus:outline-none">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-300 mr-2" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
+          </svg>
+          {`${sheetName} Favorites`}
+          </button>
+          </a>
+          </Link>
         </div>
-        <Link href={`/myfavorites/${sheetName}`}>favorites for this sheet</Link>
         {/* <FavsProvider> */}
         <form>
           <KeybindList
