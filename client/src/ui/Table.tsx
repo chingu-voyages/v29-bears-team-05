@@ -28,15 +28,17 @@ const TableHeaders = ({ columns = [] }) => {
 const TableRows = ({ data, columns }) => {
   return (
     <tbody>
-      {data.map((record) => (
-        <Row key={record.id} record={record}>
-          {columns.map((column) => (
-            <Fragment key={column.header}>
-              {React.cloneElement(column.component, { record })}
-            </Fragment>
-          ))}
-        </Row>
-      ))}
+      {data
+        .sort((a, b) => (a.likes < b.likes ? 1 : -1))
+        .map((record) => (
+          <Row key={record.id} record={record}>
+            {columns.map((column) => (
+              <Fragment key={column.header}>
+                {React.cloneElement(column.component, { record })}
+              </Fragment>
+            ))}
+          </Row>
+        ))}
     </tbody>
   );
 };
