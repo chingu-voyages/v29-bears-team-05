@@ -5,7 +5,7 @@ import { validate } from 'class-validator';
 import { User } from '../entity/User';
 import config from '../config/config';
 
-const TOKEN_EXPIRATION_DURATION = '20s';
+const TOKEN_EXPIRATION_DURATION = '1h';
 
 const login = async (req: Request, res: Response) => {
   const { username, password } = req.body;
