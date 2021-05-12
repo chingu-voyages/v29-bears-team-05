@@ -123,32 +123,68 @@ const Sheet = () => {
   if (data) {
     return (
       <div className="mb-20">
-        <div className="text-center">
-          <h1 className="my-12 text-3xl lg:text-4xl">
-            {sheetName} keyboard shortcuts
+        <div className="flex justify-items-center grid grid-cols-1 my-10 content-center text-center">
+          <img
+            className="justify-self-center mb-2"
+            src={`/images/${sheetName}.png`}
+            alt={`${sheetName} logo`}
+          />
+          <h1 className="mb-7 text-gray-700 font-bold text-3xl lg:text-4xl">
+            {sheetName} Shortcuts
           </h1>
+          {isLoggedIn ? (
+            <Link href={`/myfavorites/${sheetName}`}>
+              <a className="text-gray-700 hover:no-underline">
+                <button className="flex justify-center border border-gray-700 bg-gray-700 py-2 px-4 rounded-full text-white font-bold hover:text-gray-700 hover:bg-white hover:shadow-lg focus:outline-none">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-green-300 mr-2"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  {`My ${sheetName} Favorites`}
+                </button>
+              </a>
+            </Link>
+          ) : (
+            <div className="text-gray-700">
+              <span className="font-bold">Log In</span> or{' '}
+              <span className="font-bold">Sign Up </span>to create your
+              favorites list!
+            </div>
+          )}
         </div>
-        <Link href={`/myfavorites/${sheetName}`}>favorites for this sheet</Link>
         <form>
           <KeybindList
             sheetData={data.keybinds}
             columns={adjustedColumns}
             titleField="cheatsheetCategory"
           />
-          <div className="flex justify-center px-4 mt-11">
-            <button
-              type="submit"
-              onClick={handleSubmit}
-              disabled={!favs || !favs.length}
-              className={`${
-                favs?.length
-                  ? 'bg-gray-700 text-white  hover:shadow-lg'
-                  : 'bg-gray-300 text-gray-100 '
-              } w-full max-w-md px-6 py-3 mb-1 mr-1 text-sm font-bold uppercase transition-all duration-150 ease-linear rounded shadow outline-none mt-11 focus:outline-none`}
-            >
-              Save
-            </button>
-          </div>
+          {isLoggedIn ? (
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                onClick={handleSubmit}
+                disabled={!favs || !favs.length}
+                className={`${
+                  favs?.length
+                    ? 'bg-green-300 text-gray-700 hover:shadow-lg'
+                    : 'bg-gray-300 text-gray-100 '
+                } w-60 md:w-80 max-w-md px-6 py-3 mb-1 mr-1 text-sm font-bold  uppercase transition-all duration-150 ease-linear rounded shadow outline-none mt-11 focus:outline-none`}
+                // className="w-60 md:w-80 max-w-md px-6 py-3 mb-1 mr-1 text-sm font-bold  uppercase transition-all duration-150 ease-linear rounded shadow outline-none mt-11 hover:shadow-lg focus:outline-none"
+              >
+                Save
+              </button>
+            </div>
+          ) : (
+            <div></div>
+          )}
         </form>
       </div>
     );
