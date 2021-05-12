@@ -136,7 +136,7 @@ const Sheet = () => {
           </a>
           </Link>
 
-          : <div></div>
+          : <div className="text-gray-700"><span className="font-bold">Log In</span> or <span className="font-bold">Sign Up </span>to create your favorites list!</div>
           }
         </div>
         {/* <FavsProvider> */}
