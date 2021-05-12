@@ -12,6 +12,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useEffect, useMemo } from 'react';
 import { TrashIcon } from '../../ui/Icons';
 import { useFavs } from '../../context/FavContext';
+import Link from 'next/link';
 
 const DeleteButton = ({ record }) => {
   const queryClient = useQueryClient();
@@ -75,7 +76,7 @@ const columns = [
   },
 ];
 
-const BindingSet = ({ sheetData, favoritesData, sheetName }) => {
+const BindingSet = ({ sheetData, favoritesData }) => {
   const { userFavorites: favorites } = favoritesData.user;
   const favoritesArray = favorites?.map((record) => record.id);
   const { keybinds } = sheetData;
@@ -87,11 +88,6 @@ const BindingSet = ({ sheetData, favoritesData, sheetName }) => {
 
   return (
     <div className="mb-20">
-      <div className="text-center">
-        <h1 className="my-12 text-3xl lg:text-4xl">
-          My favorite {sheetName} keyboard shortcuts
-        </h1>
-      </div>
       <KeybindList
         sheetData={filteredByFavsData}
         columns={columns}
@@ -139,16 +135,28 @@ const Sheet = () => {
     return null;
   }
 
-  if (!favoritesData) {
-    return <div>Add favorites: Click here!</div>;
-  }
+  const hasFavs = favoritesData?.user?.userFavorites?.length;
 
   return (
-    <BindingSet
-      sheetData={sheetData}
-      favoritesData={favoritesData}
-      sheetName={sheetName}
-    />
+    <>
+      <div className="text-center">
+        <h1 className="my-12 text-3xl lg:text-4xl">
+          My favorite {sheetName} keyboard shortcuts
+        </h1>
+      </div>
+      {hasFavs ? (
+        <BindingSet sheetData={sheetData} favoritesData={favoritesData} />
+      ) : (
+        <div className="flex justify-center">
+          <p>
+            To add {sheetName} keybindings to your favorites list, click{' '}
+            <Link href={`/sheets/${sheetName}`}>
+              <a>here</a>
+            </Link>
+          </p>
+        </div>
+      )}
+    </>
   );
 };
 
