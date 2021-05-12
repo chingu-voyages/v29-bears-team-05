@@ -13,10 +13,14 @@ import { useEffect, useMemo } from 'react';
 import { TrashIcon } from '../../ui/Icons';
 import { useFavs } from '../../context/FavContext';
 import Link from 'next/link';
+import Token from '../../service/token';
 
 const DeleteButton = ({ record }) => {
   const queryClient = useQueryClient();
   const { setFavs } = useFavs();
+  const router = useRouter();
+  const { setAuthenticated } = useAuth();
+
   const mutation = useMutation(() => deleteFavorite(record.id), {
     onSuccess: (data) => {
       queryClient.setQueryData('favorites', (oldData: any) => {
@@ -33,6 +37,13 @@ const DeleteButton = ({ record }) => {
   });
 
   const handleDelete = () => {
+    if (Token.hasAuthToken() && Token.isExpired()) {
+      alert('Please login to delete favorites');
+      router.push(`/`);
+      Token.clearAuthToken();
+      setAuthenticated(false);
+      return;
+    }
     mutation.mutate(record.id);
   };
 

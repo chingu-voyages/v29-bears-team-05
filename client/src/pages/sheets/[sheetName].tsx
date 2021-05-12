@@ -4,10 +4,11 @@ import { addFavorites, getSheet } from '../../service/queryFns';
 import KeybindList from '../../components/KeybindList';
 import TextField from '../../components/Textfield';
 import { useState } from 'react';
-import { FavsProvider, useFavs } from '../../context/FavContext';
+import { useFavs } from '../../context/FavContext';
 import Link from 'next/link';
 import { HeartIcon } from '../../ui/Icons';
 import { useAuth } from '../../context/AuthContext';
+import Token from '../../service/token';
 
 const FavoriteButton = ({ record }) => {
   const context = useFavs();
@@ -92,13 +93,20 @@ const Sheet = () => {
     () => getSheet(id)
   );
 
-  const { authenticated: isLoggedIn } = useAuth();
+  const { authenticated: isLoggedIn, setAuthenticated } = useAuth();
 
   const { favs } = useFavs();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!favs) return;
+    if (Token.hasAuthToken() && Token.isExpired()) {
+      alert('Please login to add favorites');
+      router.push(`/`);
+      Token.clearAuthToken();
+      setAuthenticated(false);
+      return;
+    }
     await addFavorites(favs);
     router.push(`/myfavorites/${sheetName}`);
   };
@@ -127,12 +135,16 @@ const Sheet = () => {
             columns={adjustedColumns}
             titleField="cheatsheetCategory"
           />
-          <div className="flex justify-center">
+          <div className="flex justify-center px-4 mt-11">
             <button
               type="submit"
               onClick={handleSubmit}
               disabled={!favs || !favs.length}
-              className="w-full max-w-md px-6 py-3 mb-1 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear bg-gray-700 rounded shadow outline-none mt-11 hover:shadow-lg focus:outline-none"
+              className={`${
+                favs?.length
+                  ? 'bg-gray-700 text-white  hover:shadow-lg'
+                  : 'bg-gray-300 text-gray-100 '
+              } w-full max-w-md px-6 py-3 mb-1 mr-1 text-sm font-bold uppercase transition-all duration-150 ease-linear rounded shadow outline-none mt-11 focus:outline-none`}
             >
               Save
             </button>
