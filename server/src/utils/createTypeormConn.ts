@@ -2,6 +2,7 @@ import {
   getConnectionOptions,
   createConnection,
   ConnectionOptions,
+  Connection,
 } from 'typeorm';
 
 const getOptions = async () => {
@@ -26,7 +27,7 @@ const getOptions = async () => {
   return connectionOptions;
 };
 
-export const createTypeormConn = async (isDev = true) => {
+export const createTypeormConn = async (isDev = true): Promise<Connection> => {
   const connectionOptions = await getOptions();
 
   return createConnection({
