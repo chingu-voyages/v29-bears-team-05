@@ -131,7 +131,7 @@ const Sheet = () => {
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-300 mr-2" viewBox="0 0 20 20" fill="currentColor">
             <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
           </svg>
-          {`${sheetName} Favorites`}
+          {`My ${sheetName} Favorites`}
           </button>
           </a>
           </Link>
@@ -152,7 +152,7 @@ const Sheet = () => {
               type="submit"
               onClick={handleSubmit}
               disabled={!favs || !favs.length}
-              className="w-full max-w-md px-6 py-3 mb-1 mr-1 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear bg-gray-700 rounded shadow outline-none mt-11 hover:shadow-lg focus:outline-none"
+              className="w-60 md:w-80 max-w-md px-6 py-3 mb-1 mr-1 text-sm font-bold text-gray-700 uppercase transition-all duration-150 ease-linear bg-green-300 rounded shadow outline-none mt-11 hover:shadow-lg focus:outline-none"
             >
               Save
             </button>
