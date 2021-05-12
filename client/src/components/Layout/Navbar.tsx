@@ -11,12 +11,7 @@ export default function Navbar() {
   const [navbarOpen, setNavbarOpen] = React.useState(false);
   const [showModal, setShowModal] = React.useState(false);
   const router = useRouter();
-  const { setAuthenticated } = useAuth();
-
-  let isLoggedIn = false;
-  if (typeof window !== 'undefined') {
-    isLoggedIn = Token.hasAuthToken();
-  }
+  const { authenticated: isLoggedIn, setAuthenticated } = useAuth();
 
   const logout = () => {
     Token.clearAuthToken();
