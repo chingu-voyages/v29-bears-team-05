@@ -172,12 +172,14 @@ const Sheet = () => {
                 type="submit"
                 onClick={handleSubmit}
                 disabled={!favs || !favs.length}
-                className={`${
+                className={`w-60 md:w-80 max-w-md px-6 py-3 mt-20 mb-1 mr-1 text-sm font-bold uppercase transition-all duration-150 ease-linear rounded shadow outline-none focus:outline-none
+                bg-green-300 text-gray-700
+                ${
                   favs?.length
-                    ? 'bg-green-300 text-gray-700 hover:shadow-lg'
-                    : 'bg-gray-300 text-gray-100 '
-                } w-60 md:w-80 max-w-md px-6 py-3 mb-1 mr-1 text-sm font-bold  uppercase transition-all duration-150 ease-linear rounded shadow outline-none mt-11 focus:outline-none`}
-                // className="w-60 md:w-80 max-w-md px-6 py-3 mb-1 mr-1 text-sm font-bold  uppercase transition-all duration-150 ease-linear rounded shadow outline-none mt-11 hover:shadow-lg focus:outline-none"
+                    ? 'hover:shadow-lg'
+                    : 'bg-opacity-40 text-opacity-40 cursor-auto'
+                }
+                `}
               >
                 Save
               </button>
