@@ -9,12 +9,25 @@ import Link from 'next/link';
 import { HeartIcon } from '../../ui/Icons';
 import { useAuth } from '../../context/AuthContext';
 import Token from '../../service/token';
+import Notification from '../../utils/Notification';
 
 const FavoriteButton = ({ record }) => {
+  interface ShowNotificationProps {
+    type: string | null;
+    message: string | null;
+  }
+
+  const initialState = {
+    type: null,
+    message: null,
+  };
+
+  const [showNotification, setShowNotification] =
+    useState<ShowNotificationProps>(initialState);
+
   const context = useFavs();
   const { favs, setFavs } = context;
-  const initialState = favs?.includes(record.id);
-  const [active, setActive] = useState(initialState);
+  const [active, setActive] = useState(favs?.includes(record.id));
 
   const handleClick = (e) => {
     if (!active) {
@@ -28,11 +41,20 @@ const FavoriteButton = ({ record }) => {
       setFavs(arr);
     }
     setActive((prev) => !prev);
+    setShowNotification({
+      type: 'info',
+      message: `${record.keyCombination} will be added to favorites`,
+    });
   };
 
   return (
     <td className="p-2 text-sm sm:text-base">
       <div>
+        <Notification
+          message={showNotification.message}
+          type={showNotification.type}
+          isOpen={!!showNotification.type}
+        />
         <label className="flex cursor-pointer">
           <HeartIcon color={active ? '#c71423' : 'white'} />
           <input
@@ -78,7 +100,6 @@ const Sheet = () => {
   const { sheetName } = router.query;
 
   const queryClient = useQueryClient();
-
   const sheetsData = queryClient.getQueryData<any[]>('sheets');
   const sheetRecord = sheetsData?.find((sheet) => sheet.name === sheetName);
   const id = sheetRecord?.id;
@@ -123,6 +144,11 @@ const Sheet = () => {
   if (data) {
     return (
       <div className="mb-20">
+        {/* <Notification
+          message={showNotification.message}
+          type={showNotification.type}
+          isOpen={!!showNotification.type}
+        /> */}
         <div className="flex justify-items-center grid grid-cols-1 my-10 content-center text-center">
           <img
             className="justify-self-center mb-2"
