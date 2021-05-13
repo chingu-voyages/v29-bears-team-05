@@ -4,7 +4,7 @@ import { validate } from 'class-validator';
 import { User } from '../entity/User';
 import { Keybind } from '../entity/Keybind';
 
-const getFavorites = async (req: Request, res: Response) => {
+const getFavorites = async (req: Request, res: Response): Promise<void> => {
   const userCredentials = { user: req.body.user, token: req.body.token };
   const userRepository = getRepository(User);
 
@@ -26,7 +26,7 @@ const getFavorites = async (req: Request, res: Response) => {
   }
 };
 
-const addFavorite = async (req: Request, res: Response) => {
+const addFavorite = async (req: Request, res: Response): Promise<void> => {
   const userId = req.body.user.userId;
 
   if ('keybinds' in req.body === false) {
@@ -85,7 +85,7 @@ const addFavorite = async (req: Request, res: Response) => {
   res.status(200).send({ user });
 };
 
-const deleteFavorite = async (req: Request, res: Response) => {
+const deleteFavorite = async (req: Request, res: Response): Promise<void> => {
   const userId = req.body.user.userId;
   const queryId = req.body.keybind.id;
 
@@ -116,7 +116,7 @@ const deleteFavorite = async (req: Request, res: Response) => {
   res.status(200).send({ user, removed });
 };
 
-const getList = async (_req: Request, res: Response) => {
+const getList = async (_req: Request, res: Response): Promise<void> => {
   const userRepository = getRepository(User);
   const users = await userRepository.find({
     select: ['id', 'username', 'email'],
@@ -125,7 +125,7 @@ const getList = async (_req: Request, res: Response) => {
   res.send(users);
 };
 
-const getOneById = async (req: Request, res: Response) => {
+const getOneById = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
   const userRepository = getRepository(User);
 
@@ -139,7 +139,7 @@ const getOneById = async (req: Request, res: Response) => {
   }
 };
 
-const createUser = async (req: Request, res: Response) => {
+const createUser = async (req: Request, res: Response): Promise<void> => {
   const { username, email, password } = req.body;
   const user = new User();
 
@@ -164,7 +164,7 @@ const createUser = async (req: Request, res: Response) => {
   res.status(201).send('User created');
 };
 
-const updateUser = async (req: Request, res: Response) => {
+const updateUser = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
   const { username, email } = req.body;
 
@@ -197,7 +197,7 @@ const updateUser = async (req: Request, res: Response) => {
   res.status(204).send();
 };
 
-const deleteUser = async (req: Request, res: Response) => {
+const deleteUser = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
 
   const userRepository = getRepository(User);
