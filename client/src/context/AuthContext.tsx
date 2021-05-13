@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import Token from '../service/token';
 interface AuthContextInterface {
-  authenticated: boolean;
+  authenticated: boolean | null;
   setAuthenticated: any;
 }
 
@@ -13,7 +13,7 @@ const initialContext = {
 const AuthContext = createContext<AuthContextInterface>(initialContext);
 
 export const AuthProvider = ({ children }) => {
-  const [authenticated, setAuthenticated] = useState<boolean>(false);
+  const [authenticated, setAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
     setAuthenticated(Token.hasAuthToken() && !Token.isExpired());

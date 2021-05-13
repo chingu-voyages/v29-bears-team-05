@@ -86,7 +86,7 @@ const addFavorite = async (req: Request, res: Response) => {
 };
 
 const deleteFavorite = async (req: Request, res: Response) => {
-  const userId = req.body.user.id;
+  const userId = req.body.user.userId;
   const queryId = req.body.keybind.id;
 
   const userRepository = getRepository(User);

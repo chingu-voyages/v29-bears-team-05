@@ -12,10 +12,15 @@ import { useAuth } from '../../context/AuthContext';
 import { useEffect, useMemo } from 'react';
 import { TrashIcon } from '../../ui/Icons';
 import { useFavs } from '../../context/FavContext';
+import Link from 'next/link';
+import Token from '../../service/token';
 
 const DeleteButton = ({ record }) => {
   const queryClient = useQueryClient();
   const { setFavs } = useFavs();
+  const router = useRouter();
+  const { setAuthenticated } = useAuth();
+
   const mutation = useMutation(() => deleteFavorite(record.id), {
     onSuccess: (data) => {
       queryClient.setQueryData('favorites', (oldData: any) => {
@@ -32,6 +37,13 @@ const DeleteButton = ({ record }) => {
   });
 
   const handleDelete = () => {
+    if (Token.hasAuthToken() && Token.isExpired()) {
+      alert('Please login to delete favorites');
+      router.push(`/`);
+      Token.clearAuthToken();
+      setAuthenticated(false);
+      return;
+    }
     mutation.mutate(record.id);
   };
 
@@ -75,7 +87,7 @@ const columns = [
   },
 ];
 
-const BindingSet = ({ sheetData, favoritesData, sheetName }) => {
+const BindingSet = ({ sheetData, favoritesData }) => {
   const { userFavorites: favorites } = favoritesData.user;
   const favoritesArray = favorites?.map((record) => record.id);
   const { keybinds } = sheetData;
@@ -87,11 +99,6 @@ const BindingSet = ({ sheetData, favoritesData, sheetName }) => {
 
   return (
     <div className="mb-20">
-      <div className="text-center">
-        <h1 className="my-12 text-3xl lg:text-4xl">
-          My favorite {sheetName} keyboard shortcuts
-        </h1>
-      </div>
       <KeybindList
         sheetData={filteredByFavsData}
         columns={columns}
@@ -139,16 +146,56 @@ const Sheet = () => {
     return null;
   }
 
-  if (!favoritesData) {
-    return <div>Add favorites: Click here!</div>;
-  }
+  const hasFavs = favoritesData?.user?.userFavorites?.length;
 
   return (
-    <BindingSet
-      sheetData={sheetData}
-      favoritesData={favoritesData}
-      sheetName={sheetName}
-    />
+    <>
+      <div className="flex justify-items-center grid grid-cols-1 my-10 content-center text-center">
+        <img
+          className="justify-self-center mb-2"
+          src={`/images/${sheetName}.png`}
+          alt={`${sheetName} logo`}
+        />
+        <h1 className="mb-7 text-gray-700 font-bold text-3xl lg:text-4xl">
+          My Favorite <span className="text-green-400">{sheetName}</span>{' '}
+          Shortcuts
+        </h1>
+        <Link href={`/sheets/${sheetName}`}>
+          <a className="text-gray-700 hover:no-underline">
+            <button className="flex justify-center border border-gray-700 bg-gray-700 py-2 px-4 rounded-full text-white font-bold hover:text-gray-700 hover:bg-white hover:shadow-lg focus:outline-none">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 mr-2 text-green-300"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+                <path
+                  fillRule="evenodd"
+                  d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              {`Main ${sheetName} Sheet`}
+            </button>
+          </a>
+        </Link>
+      </div>
+      {hasFavs ? (
+        <>
+          <BindingSet sheetData={sheetData} favoritesData={favoritesData} />
+        </>
+      ) : (
+        <div className="flex justify-center">
+          <p className="mx-11">
+            You currently have no favorites. To add {sheetName} favorites, click{' '}
+            <Link href={`/sheets/${sheetName}`}>
+              <a>here</a>
+            </Link>
+          </p>
+        </div>
+      )}
+    </>
   );
 };
 
