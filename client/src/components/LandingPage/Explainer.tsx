@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 export default function Explainer() {
     return (
         <>
@@ -9,8 +11,8 @@ export default function Explainer() {
                         <h4 className="my-10 text-xl text-green-400">Keybindings you will use time and again!</h4>
                         <p className="text-lg">Browse full reference sheets of keybindings and curate your own favorites lists</p>
                     </div>
-                    <div className="border border-gray-700 py-20 px-10 w-10/12 text-center">
-                        **GIF will go here**
+                    <div className="border border-gray-700 text-center p-0 flex justify-center shadow-xl">
+                        <Image src="/images/keybound.gif" alt="gif" width="800" height="400" /> 
                     </div>
                 </div>
             </div>
