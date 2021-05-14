@@ -42,11 +42,11 @@ export class User {
   @JoinTable()
   userFavorites: Keybind[];
 
-  @BeforeInsert() async hashPassword() {
+  @BeforeInsert() async hashPassword(): Promise<void> {
     this.password = await argon2.hash(this.password);
   }
 
-  validatedUnencryptedPassword(unencryptedPassword: string) {
+  validatedUnencryptedPassword(unencryptedPassword: string): Promise<boolean> {
     return argon2.verify(this.password, unencryptedPassword);
   }
 }
