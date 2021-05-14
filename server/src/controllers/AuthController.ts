@@ -7,7 +7,7 @@ import config from '../config/config';
 
 const TOKEN_EXPIRATION_DURATION = '1h';
 
-const login = async (req: Request, res: Response) => {
+const login = async (req: Request, res: Response): Promise<void> => {
   const { username, password } = req.body;
   let user;
 
@@ -59,7 +59,7 @@ const login = async (req: Request, res: Response) => {
   res.send({ user: { id, username, userFavorites }, token });
 };
 
-const changePassword = async (req: Request, res: Response) => {
+const changePassword = async (req: Request, res: Response): Promise<void> => {
   const { userId: id } = res.locals.jwtPayload;
   const { oldPassword, newPassword } = req.body;
 
