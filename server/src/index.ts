@@ -17,9 +17,25 @@ const main = async () => {
 
   const app = express();
 
+  const whitelist: any[] = [
+    // main vercel url
+    process.env.CORS_ORIGIN,
+    // our individual vercel urls
+    process.env.CORS_ORIGIN1,
+    process.env.CORS_ORIGIN2,
+    process.env.CORS_ORIGIN3,
+    process.env.CORS_ORIGIN4,
+  ]
+
   app.use(
     cors({
-      origin: process.env.CORS_ORIGIN,
+      origin: (origin, callback) => {
+        if (whitelist.indexOf(origin) !== -1) {
+          callback(null, true);
+        } else {
+          callback(null, false);
+        }
+      },
       credentials: true,
     })
   );
