@@ -18,9 +18,7 @@ const main = async () => {
   const app = express();
 
   const whitelist: any[] = [
-    // main vercel url
     process.env.CORS_ORIGIN,
-    // our individual vercel urls
     process.env.CORS_ORIGIN1,
     process.env.CORS_ORIGIN2,
     process.env.CORS_ORIGIN3,
@@ -29,13 +27,7 @@ const main = async () => {
 
   app.use(
     cors({
-      origin: (origin, callback) => {
-        if (whitelist.indexOf(origin) !== -1) {
-          callback(null, true);
-        } else {
-          callback(null, false);
-        }
-      },
+      origin: whitelist,
       credentials: true,
     })
   );
