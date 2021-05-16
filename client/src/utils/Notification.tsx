@@ -3,7 +3,7 @@ import useBreakpoints from './useBreakpoints';
 
 const DismissButton = ({ handleDismiss }) => (
   <button
-    className="w-4 flex-none"
+    className="flex-none w-4"
     type="button"
     data-dismiss="alert"
     aria-label="Close"
@@ -61,23 +61,11 @@ const statusReference = {
   warning: { color: 'red', icon: <SecurityIcon /> },
 };
 
-const Notification = ({ isOpen, ...props }) => {
-  if (!isOpen) {
-    return null;
-  }
-
-  return (
-    <div className="flex justify-center items-center">
-      <NotificationContent {...props} />
-    </div>
-  );
-};
-
 const NotificationContent = ({
   message,
   type = 'info',
   autoHideDuration = 5000,
-}) => {
+}: any) => {
   const [show, setShow] = useState(true);
   const slideAnimation = show
     ? 'animate-slide-in-bottom'
@@ -102,11 +90,23 @@ const NotificationContent = ({
       className={`${slideAnimation} fixed w-1/3 ${mobileStyle} bottom-0 right-5 py-3 px-5 mb-4 bg-${statusReference[type].color}-100 text-${statusReference[type].color}-900 text-sm rounded-md border border-${statusReference[type].color}-200 flex items-center z-50`}
       role="alert"
     >
-      <div className="w-4 mr-2 flex-none">
+      <div className="flex-none w-4 mr-2">
         {React.cloneElement(statusReference[type].icon)}
       </div>
       <span className="flex-grow pr-2">{message}</span>
       <DismissButton handleDismiss={() => setShow(false)} />
+    </div>
+  );
+};
+
+const Notification = ({ isOpen, ...props }) => {
+  if (!isOpen) {
+    return null;
+  }
+
+  return (
+    <div className="flex items-center justify-center">
+      <NotificationContent {...props} />
     </div>
   );
 };

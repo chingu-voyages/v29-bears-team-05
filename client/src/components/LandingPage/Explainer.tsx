@@ -12,7 +12,7 @@ export default function Explainer() {
                         <p className="text-lg">Browse full reference sheets of keybindings and curate your own favorites lists</p>
                     </div>
                     <div className="border border-gray-700 text-center p-0 flex justify-center shadow-xl md:mt-10 lg:mt-0 lg:ml-5">
-                        <Image src="/images/keybound.gif" alt="gif" width="800" height="400" /> 
+                        <Image src="/images/keybound.gif" alt="gif" width="800" height="400" />
                     </div>
                 </div>
             </div>

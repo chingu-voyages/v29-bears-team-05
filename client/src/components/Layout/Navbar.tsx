@@ -52,7 +52,7 @@ export default function Navbar() {
               </svg>
             </button>
           </div>
-          {/* below block just for testing nextjs Linked routes 
+          {/* below block just for testing nextjs Linked routes
           <div className="flex justify-around w-56">
             <Link href={`/sheets`}>Nextjs Link: sheets </Link>
             {'  '}
@@ -106,10 +106,10 @@ export default function Navbar() {
                   <li className="flex items-center py-2 text-xs text-base font-bold leading-snug text-green-300 nav-item md:px-2">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="w-6 h-6" 
+                      className="w-6 h-6"
                       fill="none"
                       viewBox="0 0 24 24"
-                      stroke="currentColor" 
+                      stroke="currentColor"
                     >
                       <path
                         strokeLinecap="round"
