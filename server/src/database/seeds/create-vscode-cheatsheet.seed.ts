@@ -54,23 +54,6 @@ export class CreateVSCheatsheet implements Seeder {
         .create();
     }
 
-    // for (let index = 0; index < vsCodeData.length; index++) {
-    //   const kb = vsCodeData[index];
-
-    //   const keybind = await factory(Keybind)({
-    //     name: kb.name,
-    //     keyCombination: kb.keyCombination,
-    //     description: kb.description,
-    //     likes: kb.likes,
-    //     cheatsheet,
-    //     cheatsheetCategory: kb.cheatsheetCategory,
-    //   }).create();
-
-    //   cheatsheet.keybinds.push(keybind);
-    // }
-
     await connection.manager.save(cheatsheet);
-    // await connection.manager.save(categories);
-    // await connection.manager.save(keybinds);
   }
 }

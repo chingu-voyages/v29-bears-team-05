@@ -1,0 +1,10 @@
+{
+    "name": "production",
+    "type": "postgres",
+    "entities": [
+        "dist/entity/*.*"
+    ],
+    "migrations": [
+        "dist/migrations/*.*"
+    ]
+}

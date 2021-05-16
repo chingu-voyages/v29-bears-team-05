@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import { Cheatsheet } from '../entity/Cheatsheet';
 
-const getList = async (_req: Request, res: Response) => {
+const getList = async (_req: Request, res: Response): Promise<void> => {
   const cheatsheetRepository = getRepository(Cheatsheet);
   const cheatsheets = await cheatsheetRepository.find({
     select: ['id', 'name', 'logoUrl'],
@@ -11,7 +11,7 @@ const getList = async (_req: Request, res: Response) => {
   res.send(cheatsheets);
 };
 
-const getOneById = async (req: Request, res: Response) => {
+const getOneById = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
   const cheatsheetRepository = getRepository(Cheatsheet);
 

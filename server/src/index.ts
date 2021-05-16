@@ -17,9 +17,17 @@ const main = async () => {
 
   const app = express();
 
+  const whitelist: any[] = [
+    process.env.CORS_ORIGIN,
+    process.env.CORS_ORIGIN1,
+    process.env.CORS_ORIGIN2,
+    process.env.CORS_ORIGIN3,
+    process.env.CORS_ORIGIN4,
+  ]
+
   app.use(
     cors({
-      origin: process.env.CORS_ORIGIN,
+      origin: whitelist,
       credentials: true,
     })
   );

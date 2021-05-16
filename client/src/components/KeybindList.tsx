@@ -10,14 +10,17 @@ type Props = {
 
 const KeybindList = ({ sheetData, columns, titleField }: Props) => {
   // makes sure categories always in original order
-  const categories = useMemo(
-    () =>
-      _.uniqBy(sheetData, (el) => el[titleField].name)
-        .sort((a, b) => (a[titleField].index > b[titleField].index ? 1 : -1))
-        .map((el) => el[titleField].name),
+  const categories = useMemo(() => {
+    if (!sheetData) return [];
 
-    [sheetData, titleField]
-  );
+    return _.uniqBy(sheetData, (el) => el[titleField].name)
+      .sort((a, b) => (a[titleField].index > b[titleField].index ? 1 : -1))
+      .map((el) => el[titleField].name);
+  }, [sheetData, titleField]);
+
+  if (!sheetData.length) {
+    return null;
+  }
 
   return (
     <div>
