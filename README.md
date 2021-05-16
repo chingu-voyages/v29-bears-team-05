@@ -1,25 +1,3 @@
-<!--
-*** Thanks for checking out the Best-README-Template. If you have a suggestion
-*** that would make this better, please fork the repo and create a pull request
-*** or simply open an issue with the tag "enhancement".
-*** Thanks again! Now go create something AMAZING! :D
-***
-***
-***
-*** To avoid retyping too much info. Do a search and replace for the following:
-*** github_username, repo_name, twitter_handle, email, Keybound, project_description
--->
-
-
-
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
@@ -66,16 +44,13 @@
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li><a href="#front-end-setup">Front End Setup</a></li>
+        <li><a href="#back-end-setup">Back End Setup</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgements">Acknowledgements</a></li>
   </ol>
 </details>
 
@@ -84,61 +59,68 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
-Here's a blank template to get started:
-**To avoid retyping too much info. Do a search and replace with your text editor for the following:**
-`github_username`, `repo_name`, `twitter_handle`, `email`, `Keybound`, `project_description`
+<p align="center">
+  <img src="https://github.com/chingu-voyages/v29-bears-team-05/blob/develop/client/public/images/keybound.gif?raw=true" />
+</p>
+Keybound lets users make custom cheat sheets full of shortcuts for study and easy reference. We currently support VS Code but plan to add more resources.
 
 
 ### Built With
 
-* []()
-* []()
-* []()
-
+* [React](https://reactjs.org/)
+* [Tailwind CSS](https://tailwindcss.com/)
+* [NextJS](https://nextjs.org/)
+* [TypeORM](https://typeorm.io/#/)
+* [React Query](https://react-query.tanstack.com/)
 
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-To get a local copy up and running follow these simple steps.
 
-### Prerequisites
+To start front-end
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+### Front End Setup
 
-### Installation
-
-1. Clone the repo
-   ```sh
-   git clone https://github.com/chingu-voyages/v29-bears-team-05.git
+1. Enter client directory
+   ```
+   cd .\client\
    ```
 2. Install NPM packages
    ```sh
    npm install
    ```
+3. Start local
+   ```sh
+   npm run dev
+   ```
+   
+### Back End Setup
 
-
-
-<!-- USAGE EXAMPLES -->
-## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-
-
+1. Enter client directory
+   ```
+   cd .\server\
+   ```
+2. Install NPM packages
+   ```sh
+   npm install
+   ```
+3. Setup docker
+   ```sh
+   docker-compose up
+   ```
+4. Setup database
+   ```sh
+   npm run db:setup
+   ```
+5. Start server
+   ```sh
+   npm run dev
+   ```
 <!-- ROADMAP -->
 ## Roadmap
 
 See the [open issues](https://github.com/chingu-voyages/v29-bears-team-05/issues) for a list of proposed features (and known issues).
-
 
 
 <!-- CONTRIBUTING -->
@@ -164,22 +146,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email
-
 Project Link: [https://github.com/chingu-voyages/v29-bears-team-05](https://github.com/chingu-voyages/v29-bears-team-05)
-
-
-
-<!-- ACKNOWLEDGEMENTS -->
-## Acknowledgements
-
-* []()
-* []()
-* []()
-
-
-
-
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
